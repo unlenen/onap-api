@@ -1,0 +1,27 @@
+{
+    "cloud-owner": "${CLOUD_OWNER}",
+    "cloud-region-id": "${CLOUD_NAME}",
+    "cloud-type": "openstack",
+    "owner-defined-type": "",
+    "cloud-region-version": "pike",
+    "cloud-zone": "",
+    "complex-name": "${CLOUD_COMPLEX_NAME}",
+    "identity-url": "WillBeUpdatedByMultiCloud",
+    "sriov-automation": false,
+    "cloud-extra-info": "{\"openstack-region-id\":\"${CLOUD_REGION}\"}",
+    "esr-system-info-list": {
+    	"esr-system-info": [
+            {
+            "esr-system-info-id": "${CLOUD_ESR_UUID}",
+            "service-url": "${CLOUD_OS_KEYSTONE_URL}",
+            "user-name": "${CLOUD_OS_USER}",
+            "password": "${CLOUD_OS_PASSWORD}",
+            "system-type": "VIM",
+            "ssl-insecure": true,
+            "cloud-domain": "${CLOUD_OS_DOMAIN}",
+            "default-tenant": "${CLOUD_OS_PROJECT}",
+            "system-status": "active"
+            }
+        ]
+    }
+}

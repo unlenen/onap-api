@@ -1,0 +1,24 @@
+{
+    "requestDetails": {
+        "requestInfo": {
+            "source": "VID",
+            "requestorId": "demo"
+        },
+        "modelInfo": {
+            "modelType": "vnf",
+            "modelInvariantId": "${DESIGN_VF_invariantUUID}",
+            "modelVersionId": "${DESIGN_VF_UUID}",
+            "modelName": "${DESIGN_VF_NAME}",
+            "modelVersion": "1.0",
+            "modelCustomizationName": "${DESIGN_VF_MODEL_NAME}"
+        },
+        "requestParameters": {
+            "testApi": "GR_API"
+        },
+        "cloudConfiguration": {
+            "lcpCloudRegionId": "${CLOUD_REGION}",
+            "cloudOwner": "${CLOUD_OWNER}",
+            "tenantId": "${CLOUD_TENANT_ID}"
+        }
+    }
+}

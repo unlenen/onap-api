@@ -1,0 +1,48 @@
+{
+    "requestDetails": {
+        "requestInfo": {
+            "instanceName": "${RUNTIME_VNF_NAME}",
+            "source": "VID",
+            "suppressRollback": false,
+            "requestorId": "demo",
+            "productFamilyId": "${DESIGN_SERVICE_MODEL_UNIQUE_ID}"
+        },
+        "modelInfo": {
+            "modelType": "vnf",
+            "modelInvariantId": "${DESIGN_VF_invariantUUID}",
+            "modelVersionId": "${DESIGN_VF_UUID}",
+            "modelName": "${DESIGN_VF_NAME}",
+            "modelVersion": "1.0",
+            "modelCustomizationName": "${DESIGN_VF_MODEL_NAME}"
+        },
+        "requestParameters": {
+            "userParams": [],
+            "testApi": "GR_API"
+        },
+        "cloudConfiguration": {
+            "lcpCloudRegionId": "${CLOUD_REGION}",
+            "cloudOwner": "${CLOUD_OWNER}",
+            "tenantId": "${CLOUD_TENANT_ID}"
+        },
+        "lineOfBusiness": {
+            "lineOfBusinessName": "${BUSINESS_LINE_OF_BUSINESS}"
+        },
+        "platform": {
+            "platformName": "${BUSINESS_PLATFORM_NAME}"
+        },
+        "relatedInstanceList": [
+            {
+                "relatedInstance": {
+                    "instanceId": "${RUNTIME_SERVICE_INSTANCE_ID}",
+                    "modelInfo": {
+                        "modelType": "service",
+                        "modelName": "${DESIGN_SERVICE_MODEL_NAME}",
+                        "modelInvariantId": "${DESIGN_SERVICE_MODEL_InvariantUUID}",
+                        "modelVersion": "1.0",
+                        "modelVersionId": "${DESIGN_SERVICE_MODEL_UUID}"
+                    }
+                }
+            }
+        ]
+    }
+}

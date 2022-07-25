@@ -1,0 +1,4 @@
+{
+    "availability-zone-name": "${CLOUD_AVAILABILITY_ZONE}",
+    "hypervisor-type": "${CLOUD_HYPERVISOR_TYPE}"
+}

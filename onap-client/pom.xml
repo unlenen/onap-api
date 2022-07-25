@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>tr.com.argela</groupId>
+    <artifactId>onap-service</artifactId>
+    <version>1.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <groupId>tr.com.argela</groupId>
+  <artifactId>onap-client</artifactId>
+  <version>1.0</version>
+  <packaging>jar</packaging>
+
+  <name>onap-client</name>
+  <url>http://www.argela.com.tr</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+
+    <plugins>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+        <version>1.18.20.0</version>
+        <executions>
+          <execution>
+            <id>delombok</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>delombok</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+              <outputDirectory>${project.build.directory}/delombok</outputDirectory>
+              <addOutputDirectory>false</addOutputDirectory>
+              <formatPreferences>
+                <javaLangAsFQN>skip</javaLangAsFQN>
+              </formatPreferences>
+              <verbose>false</verbose>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

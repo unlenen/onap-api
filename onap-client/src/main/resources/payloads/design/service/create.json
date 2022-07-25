@@ -1,0 +1,41 @@
+{
+    "artifacts": {},
+    "toscaArtifacts": {},
+    "contactId": "cs0008",
+    "categories": [
+        {
+            "name": "Network Service",
+            "normalizedName": "network service",
+            "uniqueId": "serviceNewCategory.network service",
+            "icons": [
+                "network_l_1-3"
+            ],
+            "subcategories": null,
+            "version": null,
+            "ownerId": null,
+            "empty": false,
+            "type": null
+        }
+    ],
+    "description": "${DESIGN_SERVICE_MODEL_DESCRIPTION}",
+    "icon": "defaulticon",
+    "componentInstancesProperties": {},
+    "componentInstancesAttributes": {},
+    "name": "${DESIGN_SERVICE_MODEL_NAME}",
+    "tags": [
+        "${DESIGN_SERVICE_MODEL_NAME}"
+    ],
+    "capabilities": {},
+    "requirements": {},
+    "deploymentArtifacts": {},
+    "componentType": "SERVICE",
+    "projectCode": "123456",
+    "componentInstances": [],
+    "properties": [],
+    "attributes": [],
+    "forwardingPaths": {},
+    "ecompGeneratedNaming": true,
+    "serviceApiArtifacts": {},
+    "instantiationType": "A-la-carte",
+    "environmentContext": "General_Revenue-Bearing"
+}

@@ -1,0 +1,5 @@
+{
+    "global-customer-id": "${BUSINESS_CUSTOMER_ID}",
+    "subscriber-name": "${BUSINESS_CUSTOMER_NAME}",
+    "subscriber-type": "INFRA"
+}

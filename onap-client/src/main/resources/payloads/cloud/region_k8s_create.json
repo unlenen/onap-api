@@ -1,0 +1,10 @@
+{
+    "cloud-owner": "${CLOUD_OWNER}",
+    "cloud-region-id": "${CLOUD_NAME}",
+    "cloud-type": "k8s",
+    "owner-defined-type": "t1",
+    "cloud-region-version": "1.20.6",
+    "complex-name": "${CLOUD_COMPLEX_NAME}",
+    "cloud-zone": "CloudZone",
+    "sriov-automation": false
+}

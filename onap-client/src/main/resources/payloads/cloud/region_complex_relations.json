@@ -1,0 +1,10 @@
+{
+    "related-to": "complex",
+    "related-link": "/aai/v16/cloud-infrastructure/complexes/complex/${CLOUD_COMPLEX_NAME}",
+    "relationship-data": [
+        {
+            "relationship-key": "complex.physical-location-id",
+            "relationship-value": "${CLOUD_COMPLEX_NAME}"
+        }
+    ]
+}

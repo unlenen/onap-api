@@ -1,0 +1,4 @@
+{
+    "owning-entity-id": "${BUSINESS_OWNING_ENTITY_ID}",
+    "owning-entity-name": "${BUSINESS_OWNING_ENTITY_NAME}"
+}

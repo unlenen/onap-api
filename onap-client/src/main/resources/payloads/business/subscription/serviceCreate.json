@@ -1,0 +1,4 @@
+{
+    "service-id": "${DESIGN_SERVICE_MODEL_InvariantUUID}",
+    "service-description": "${DESIGN_SERVICE_MODEL_NAME}"
+}

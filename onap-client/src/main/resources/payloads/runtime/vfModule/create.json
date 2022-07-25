@@ -1,0 +1,55 @@
+{
+    "requestDetails": {
+        "requestInfo": {
+            "instanceName": "${RUNTIME_VFMODULE_NAME}",
+            "source": "VID",
+            "suppressRollback": false,
+            "requestorId": "demo"
+        },
+        "modelInfo": {
+            "modelType": "vfModule",
+            "modelInvariantId": "${DESIGN_VF_MODEL_InvariantId}",
+            "modelVersionId": "${DESIGN_VF_MODEL_UUID}",
+            "modelName": "${DESIGN_VF_MODEL_TYPE}",
+            "modelVersion": "1",
+            "modelCustomizationName": "${DESIGN_VF_MODEL_TYPE}"
+        },
+        "requestParameters": {
+            "testApi": "GR_API",
+            "usePreload": true
+        },
+        "cloudConfiguration": {
+            "lcpCloudRegionId": "${CLOUD_REGION}",
+            "cloudOwner": "${CLOUD_OWNER}",
+            "tenantId": "${CLOUD_TENANT_ID}"
+        },
+        "relatedInstanceList": [
+            {
+                "relatedInstance": {
+                    "instanceId": "${RUNTIME_SERVICE_INSTANCE_ID}",
+                    "modelInfo": {
+                        "modelType": "service",
+                        "modelName": "${DESIGN_SERVICE_MODEL_NAME}",
+                        "modelInvariantId": "${DESIGN_SERVICE_MODEL_InvariantUUID}",
+                        "modelVersion": "1.0",
+                        "modelVersionId": "${DESIGN_SERVICE_MODEL_UUID}"
+                    }
+                }
+            },
+            {
+                "relatedInstance": {
+                    "instanceId": "${RUNTIME_VNF_ID}",
+                    "modelInfo": {
+                        "modelType": "vnf",
+                        "modelName": "${DESIGN_VF_NAME}",
+                        "modelInvariantId": "${DESIGN_VF_MODEL_InvariantId}",
+                        "modelVersion": "1.0",
+                        "modelVersionId": "${DESIGN_VF_UUID}",
+                        "modelCustomizationId": "${DESIGN_VF_MODEL_CUSTOMIZATION_ID}",
+                        "modelCustomizationName": "${DESIGN_VF_MODEL_NAME}"
+                    }
+                }
+            }
+        ]
+    }
+}

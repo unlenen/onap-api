@@ -1,0 +1,4 @@
+{
+    "tenant-id": "${CLOUD_TENANT_ID}",
+    "tenant-name": "${CLOUD_TENANT_NAME}"
+}

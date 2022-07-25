@@ -1,0 +1,33 @@
+{
+    "requestDetails": {
+        "modelInfo": {
+            "modelInvariantId": "${DESIGN_SERVICE_MODEL_InvariantUUID}",
+            "modelVersionId": "${DESIGN_SERVICE_MODEL_UUID}",
+            "modelName": "${DESIGN_SERVICE_MODEL_NAME}",
+            "modelType": "service",
+            "modelVersion": "1.0"
+        },
+        "owningEntity": {
+            "owningEntityId": "${BUSINESS_OWNING_ENTITY_ID}",
+            "owningEntityName": "${BUSINESS_OWNING_ENTITY_NAME}"
+        },
+        "subscriberInfo": {
+            "globalSubscriberId": "${BUSINESS_CUSTOMER_ID}"
+        },
+        "project": {
+            "projectName": "${BUSINESS_PROJECT_NAME}"
+        },
+        "requestInfo": {
+            "instanceName": "${RUNTIME_SERVICE_INSTANCE_NAME}",
+            "source": "VID",
+            "suppressRollback": false,
+            "requestorId": "demo"
+        },
+        "requestParameters": {
+            "testApi": "GR_API",
+            "subscriptionServiceType": "${DESIGN_SERVICE_MODEL_NAME}",
+            "aLaCarte": true,
+            "userParams": []
+        }
+    }
+}

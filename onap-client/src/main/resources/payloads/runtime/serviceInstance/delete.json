@@ -1,0 +1,18 @@
+{
+    "requestDetails": {
+        "requestInfo": {
+            "source": "VID",
+            "requestorId": "demo"
+        },
+        "modelInfo": {
+            "modelInvariantId": "${DESIGN_SERVICE_MODEL_InvariantUUID}",
+            "modelVersionId": "${DESIGN_SERVICE_MODEL_UUID}",
+            "modelName": "${DESIGN_SERVICE_MODEL_NAME}",
+            "modelType": "service",
+            "modelVersion": "1.0"
+        },
+        "requestParameters": {
+            "testApi": "GR_API"
+        }
+    }
+}

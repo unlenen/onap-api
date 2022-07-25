@@ -1,0 +1,42 @@
+{
+    "input": {
+        "request-information": {
+            "notification-url": "onap.org",
+            "order-number": "1",
+            "order-version": "1",
+            "request-action": "PreloadVfModuleRequest",
+            "request-id": "test"
+        },
+        "sdnc-request-header": {
+            "svc-action": "reserve",
+            "svc-notification-url": "http://onap.org:8080/adapters/rest/SDNCNotify",
+            "svc-request-id": "test"
+        },
+        "preload-vf-module-topology-information": {
+            "vnf-resource-assignments": {
+                "availability-zones": {
+                    "availability-zone": [
+                        "${CLOUD_AVAILABILITY_ZONE}"
+                    ],
+                    "max-count": "1"
+                },
+                "vnf-networks": {
+                    "vnf-network": []
+                }
+            },
+            "vf-module-topology": {
+                "vf-module-topology-identifier": {
+                    "vf-module-name": "${RUNTIME_VFMODULE_NAME}",
+                    "vf-module-type": "${DESIGN_VF_MODEL_TYPE}"
+                },
+                "vf-module-parameters": {
+                    "param": ${RUNTIME_VFMODULE_PARAMS}
+                }
+            },
+            "vnf-topology-identifier-structure": {
+                "vnf-name": "${RUNTIME_VNF_NAME}",
+                "vnf-type": "${DESIGN_VF_MODEL_NAME}"
+            }
+        }
+    }
+}

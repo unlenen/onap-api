@@ -1,0 +1,4 @@
+{
+    "global-customer-id": "${BUSINESS_CUSTOMER_ID}",
+    "resource-version": "${RESOURCE_VERSION}"
+}

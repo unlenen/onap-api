@@ -1,0 +1,11 @@
+{
+    "name": "${DESIGN_VSP_NAME}",
+    "description": "${DESIGN_VSP_DESC}",
+    "icon": "icon",
+    "category": "resourceNewCategory.generic",
+    "subCategory": "resourceNewCategory.generic.abstract",
+    "vendorName": "${DESIGN_VENDOR_NAME}",
+    "vendorId": "${DESIGN_VENDOR_ID}",
+    "licensingData": {},
+    "onboardingMethod": "NetworkPackage"
+}

@@ -1,0 +1,8 @@
+{
+    "cloud-region": "${CLOUD_NAME}",
+    "cloud-owner": "${CLOUD_OWNER}",
+    "other-connectivity-list": {
+        "connectivity-records": [
+        ]
+    }
+}

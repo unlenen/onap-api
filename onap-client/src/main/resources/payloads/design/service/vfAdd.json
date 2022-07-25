@@ -1,0 +1,10 @@
+{
+	"name": "${DESIGN_VF_NAME}",
+	"componentVersion": "1.0",
+	"posY": 100,
+	"posX": "${DESIGN_VF_POSX}",
+	"uniqueId": "${DESIGN_VF_UNIQUE_ID}",
+	"originType": "VF",
+	"componentUid": "${DESIGN_VF_UNIQUE_ID}",
+	"icon": "defaulticon"
+}

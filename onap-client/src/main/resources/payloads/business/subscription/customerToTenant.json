@@ -1,0 +1,24 @@
+{
+    "related-to": "tenant",
+    "related-link": "/aai/v16/cloud-infrastructure/cloud-regions/cloud-region/${CLOUD_OWNER}/${CLOUD_REGION}/tenants/tenant/${CLOUD_TENANT_ID}",
+    "relationship-data": [
+        {
+            "relationship-key": "cloud-region.cloud-owner",
+            "relationship-value": "${CLOUD_OWNER}"
+        },
+        {
+            "relationship-key": "cloud-region.cloud-region-id",
+            "relationship-value": "${CLOUD_REGION}"
+        },
+        {
+            "relationship-key": "tenant.tenant-id",
+            "relationship-value": "${CLOUD_TENANT_ID}"
+        }
+    ],
+    "related-to-property": [
+        {
+            "property-key": "tenant.tenant-name",
+            "property-value": "${CLOUD_TENANT_NAME}"
+        }
+    ]
+}

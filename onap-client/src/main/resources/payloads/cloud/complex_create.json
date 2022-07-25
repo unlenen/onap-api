@@ -1,0 +1,9 @@
+{
+    "physical-location-id": "${CLOUD_COMPLEX_NAME}",
+    "physical-location-type": "office",
+    "street1": "Ihsan Dogramaci",
+    "city": "Ankara",
+    "postal-code": "06100",
+    "country": "Turkiye",
+    "region": "Baskent"
+}

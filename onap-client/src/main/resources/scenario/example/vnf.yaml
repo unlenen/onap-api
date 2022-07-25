@@ -1,0 +1,170 @@
+#########################################################################
+#                                                                       #
+#       ARGELA TECHNOLOGIES                                             #
+#       ONAP AS A SERVICE DEMO DATA                                     #
+#       App1 : Nginx                                                    #
+#       App2 : Mysql                                                    #
+#                                                                       #
+#       For using in your home openstack please provide                 #
+#       x) Nginx heat template                                          #
+#       x) Mysql heat template                                          #
+#       x) Openstack cluster with version > pike                        #
+#       x) cloudRegions and tenantId configuration must be change to    #
+#          your own openstack information                               #
+#       x) Profile must be change due to your heat env                  #
+#########################################################################
+
+# Vendor and App Definitions
+vendor:
+  name: Argela
+  description: Argela
+  vsps:
+  - name: VNF_Nginx
+    description: Nginx Server
+    file: d:\\data\\openstack\\ArgelaNginx.zip
+  - name: VNF_MysqlServer 
+    description: Mysql Server 
+    file: d:\\data\\openstack\\ArgelaMysqlServer.zip
+    
+# Service Definitions
+service:
+  name: Argela_Web_Service
+  description: Argela_Web_Service
+  # Customers
+  customers:
+  - id: nebiunlenen
+    name: Nebi Volkan Unlenen
+  - id: canerturkaslan
+    name: Muhammed Caner Turkaslan
+  - id: hilalalsac
+    name: Feyza Hilal Alsac
+  - id: erolozcan
+    name: Erol Ozcan
+    
+  # Related Tenants
+  tenants:
+  - id: 5aa6ebb7ed1145f1b59c579d01c4ad36
+  - id: 207a223d949544c38c8e369bc309c381
+  
+  # Service Components
+  vfs:
+  - name: VNF_Nginx
+    description: VNF_Nginx
+    vsp:
+      name: VNF_Nginx
+  - name: VNF_MysqlServer
+    description: VNF_MysqlServer
+    vsp:
+      name: VNF_MysqlServer
+
+  # Service Instances
+  serviceInstances:
+  - name: ArgelaWebService_Instance_Nebi_Unlenen
+    customer:
+      id: nebiunlenen
+    owningEntity:
+      id: a4dc9387-4548-43b3-8aed-5a38c9331d3d
+      name: Argela_NFV_CC
+    project: Argela_NFV_CC_ONAP_VNF_DEMO
+    # Vnfs
+    vnfs:
+    - name: ArgelaWebService_Instance_Nebi_Unlenen_Istanbul_Nginx_Vnf
+      lineOfBusiness: NFV_POC
+      platform: Argela_Istanbul_NFVLAB_Openstack
+      tenant:
+        id: 5aa6ebb7ed1145f1b59c579d01c4ad36
+      vf: 
+        name: VNF_Nginx
+      
+      # Vnf modules
+      vfModules:
+      - name: ArgelaWebService_Instance_Nebi_Unlenen_Istanbul_Nginx_VfModule
+        availabilityZone: nova
+        vfModel:
+          modelType: VnfNginx..nginx..module-0
+        profile:
+          name: NginxProfile
+    # Vnfs  
+    - name: ArgelaWebService_Instance_Nebi_Unlenen_Istanbul_Mysql_Vnf
+      lineOfBusiness: NFV_POC
+      platform: Argela_Istanbul_NFVLAB_Openstack
+      tenant:
+        id: 5aa6ebb7ed1145f1b59c579d01c4ad36
+      vf: 
+        name: VNF_MysqlServer
+    
+      # Vnf modules
+      vfModules:
+      - name: ArgelaWebService_Instance_Nebi_Unlenen_Istanbul_Mysql_VfModule
+        availabilityZone: nova
+        vfModel:
+          modelType: VnfMysqlserver..mysql..module-0
+        profile:
+          name: MysqlServerProfile
+
+         
+cloudRegions:
+# Istanbul Openstack
+- cloudOwner: CloudOwner
+  name: argela_ist_kolla_openstack_regionone
+  complexName: argela_ist_nfvlab
+  regionName: RegionOne
+  domain: argela
+  defaultProject: onap_project
+  authServiceURL: "https://<openstack-ip>:5000/v3"
+  authUser: "onap_user"
+  authPassword: "argela"
+  cloudType: OPENSTACK
+  tenants:
+  - id: 5aa6ebb7ed1145f1b59c579d01c4ad36
+    name: onap_project
+  availabilityZones:
+  - name: nova
+    hypervisorType: kvm
+# Ankara Openstack
+- cloudOwner: CloudOwner
+  name: argela_ankara_openstack_regionone
+  complexName: argela_ankara_nfvlab
+  regionName: RegionOne
+  domain: argela
+  defaultProject: onap_project
+  authServiceURL: "https://<openstack-ip>:5000/v3"
+  authUser: "onap_user"
+  authPassword: "argela"
+  cloudType: OPENSTACK
+  tenants:
+  - id: 207a223d949544c38c8e369bc309c381
+    name: onap_project
+  availabilityZones:
+  - name: nova
+    hypervisorType: kvm
+    
+profiles:
+- name: NginxProfile
+  parameters:
+  - name: vnf_image
+    value: ubuntu20.04
+  - name: vnf_flavor
+    value: m1.medium
+  - name: vnf_network_name
+    value: ONAP_VNF_PRIVATE_NET
+  - name: vnf_name
+    value: ArgelaAppService_Istanbul_Vnf_Test1
+  - name: dcae_collector_ip
+    value: 192.168.135.171
+  - name: dcae_collector_port
+    value: 30417
+- name: MysqlServerProfile
+  parameters:
+  - name: vnf_image
+    value: ubuntu20.04
+  - name: vnf_flavor
+    value: m1.medium
+  - name: vnf_network_name
+    value: ONAP_VNF_PRIVATE_NET
+  - name: vnf_name
+    value: ArgelaAppService_Istanbul_Vnf_Test2
+  - name: dcae_collector_ip
+    value: 192.168.135.171
+  - name: dcae_collector_port
+    value: 30417

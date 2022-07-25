@@ -1,0 +1,24 @@
+{
+    "requestDetails": {
+        "requestInfo": {
+            "source": "VID",
+            "requestorId": "demo"
+        },
+        "modelInfo": {
+            "modelType": "vfModule",
+            "modelInvariantId": "${DESIGN_VF_MODEL_InvariantId}",
+            "modelVersionId": "${DESIGN_VF_MODEL_UUID}",
+            "modelName": "${DESIGN_VF_MODEL_TYPE}",
+            "modelVersion": "1",
+            "modelCustomizationName": "${DESIGN_VF_MODEL_TYPE}"
+        },
+        "requestParameters": {
+            "testApi": "GR_API"
+        },
+        "cloudConfiguration": {
+            "lcpCloudRegionId": "${CLOUD_REGION}",
+            "cloudOwner": "${CLOUD_OWNER}",
+            "tenantId": "${CLOUD_TENANT_ID}"
+        }
+    }
+}
