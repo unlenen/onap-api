@@ -36,24 +36,24 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(getApiInfo())
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(getApiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("tr.com.argela.nfv.onap.service"))
-                
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo getApiInfo() {
         return new ApiInfo(
-            "Argela ONAP Rest API",
-            "This project aims to call ONAP complex APIs easily with converting them basic rest APIs.",
-            "V1.0",
+                "Argela ONAP Rest API",
+                "This project aims to call ONAP complex APIs easily with converting them basic rest APIs.",
+                "V1.0",
                 "TERMS OF SERVICE URL",
-                new Contact("Nebi Volkan UNLENEN","https://www.linkedin.com/in/nebi-volkan-unlenen-3143275/","unlenen@gmail.com"),
+                new Contact("Nebi Volkan UNLENEN", "https://www.linkedin.com/in/nebi-volkan-unlenen-3143275/",
+                        "unlenen@gmail.com"),
                 "Apache 2.0", "https://www.apache.org/licenses/LICENSE-2.0",
-                Collections.emptyList()
-        );
+                Collections.emptyList());
     }
 
 }
