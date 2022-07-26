@@ -19,8 +19,6 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +27,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
 
+import lombok.extern.slf4j.Slf4j;
 import tr.com.argela.nfv.onap.service.constant.EntityStatus;
 import tr.com.argela.nfv.onap.service.constant.ScenarioStatus;
 import tr.com.argela.nfv.onap.service.controller.DesignController;
@@ -40,9 +39,9 @@ import tr.com.argela.nfv.onap.service.model.Vendor;
  * @author Nebi Volkan UNLENEN(unlenen@gmail.com)
  */
 @Service
+@Slf4j
 public class VendorScenario extends CommonScenario {
 
-    Logger log = LoggerFactory.getLogger(VendorScenario.class);
     @Autowired
     DesignController designService;
 
@@ -73,7 +72,7 @@ public class VendorScenario extends CommonScenario {
         if (!vendors.isEmpty()) {
             LinkedHashMap<String, String> vendorObj = (LinkedHashMap<String, String>) vendors.get(0);
             vendor.setId(vendorObj.get("id"));
-            log.info("[Scenario][Vendor][Exists] name:" + vendor.getName() + " , id : " + vendor.getId());
+            log.info("[Scenario][Vendor][Exists] " + vendor);
         }
         return !vendors.isEmpty();
     }
@@ -85,8 +84,7 @@ public class VendorScenario extends CommonScenario {
         vendor.setVersionId(rootContext.read("$['results'][0]['id']"));
         vendor.setVersionStatus(
                 EntityStatus.valueOf((rootContext.read("$['results'][0]['status']") + "").toUpperCase(Locale.ENGLISH)));
-        log.info("[Scenario][Vendor][Exists][FindVersion] name:" + vendor.getName() + " , id : " + vendor.getId()
-                + " , versionId:" + vendor.getVersionId() + ", versionStatus:" + vendor.getVersionStatus());
+        log.info("[Scenario][Vendor][Exists][FindVersion] " + vendor);
     }
 
     private void createVendor(Vendor vendor) throws Exception {
@@ -96,14 +94,12 @@ public class VendorScenario extends CommonScenario {
         JSONObject version = root.getJSONObject("version");
         vendor.setVersionId(version.getString("id"));
         vendor.setVersionStatus(EntityStatus.valueOf(version.getString("status").toUpperCase(Locale.ENGLISH)));
-        log.info("[Scenario][Vendor][New] name:" + vendor.getName() + " , id : " + vendor.getId() + " , versionId:"
-                + vendor.getVersionId() + ", versionStatus:" + vendor.getVersionStatus());
+        log.info("[Scenario][Vendor][New] " + vendor);
     }
 
     private void submitVendor(Vendor vendor) throws Exception {
         readResponse(designService.submitVendor(vendor.getId(), vendor.getVersionId()));
         vendor.setVersionStatus(EntityStatus.CERTIFIED);
-        log.info("[Scenario][Vendor][Submit] name:" + vendor.getName() + " , id : " + vendor.getId() + " , versionId:"
-                + vendor.getVersionId() + ", versionStatus:" + vendor.getVersionStatus());
+        log.info("[Scenario][Vendor][Submit]" + vendor);
     }
 }

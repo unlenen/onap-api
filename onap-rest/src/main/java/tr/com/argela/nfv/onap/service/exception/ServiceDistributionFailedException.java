@@ -23,7 +23,7 @@ import tr.com.argela.nfv.onap.service.model.Service;
  * @author Nebi Volkan UNLENEN(unlenen@gmail.com)
  */
 @Getter
-public class ServiceDistributionFailedException extends Exception {
+public class ServiceDistributionFailedException extends OnapException {
 
     Service service;
     String distributionId;
@@ -31,10 +31,12 @@ public class ServiceDistributionFailedException extends Exception {
     String status;
 
     public ServiceDistributionFailedException(Service service, String distributionId, String component, String status) {
+        super("Service could not be distributed ."+service);
         this.service = service;
         this.distributionId = distributionId;
         this.component = component;
         this.status = status;
+        
     }
 
 }

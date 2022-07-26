@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  *
@@ -29,6 +30,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(exclude = { "service" })
 public class Customer {
 
     String id;
@@ -44,11 +46,6 @@ public class Customer {
         this.name = name;
         this.versionId = versionId;
         this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" + "id=" + id + ", name=" + name + ", type=" + type + '}';
     }
 
     public void copy(Customer customerOnap) {

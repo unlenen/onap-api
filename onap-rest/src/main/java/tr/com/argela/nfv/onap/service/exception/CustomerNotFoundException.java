@@ -13,29 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
  */
-package tr.com.argela.nfv.onap.service.model;
-
-import java.util.List;
+package tr.com.argela.nfv.onap.service.exception;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import tr.com.argela.nfv.onap.service.constant.EntityStatus;
 
 /**
  *
  * @author Nebi Volkan UNLENEN(unlenen@gmail.com)
  */
 @Getter
-@Setter
-@ToString(exclude = { "description", "vsps" })
-public class Vendor {
+public class CustomerNotFoundException extends OnapException {
 
     String id;
-    String name;
-    String versionId;
-    EntityStatus versionStatus;
-    String description;
-    List<VSP> vsps;
 
+    public CustomerNotFoundException(String id) {
+        super("Customer is not found . Requested customer id : " + id);
+        this.id = id;
+    }
 }

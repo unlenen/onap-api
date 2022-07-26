@@ -28,6 +28,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.extern.slf4j.Slf4j;
 import tr.com.argela.nfv.onap.api.client.OnapClient;
 import tr.com.argela.nfv.onap.service.model.Scenario;
+import tr.com.argela.nfv.onap.service.model.ScenarioError;
 import tr.com.argela.nfv.onap.service.scenario.CloudScenario;
 import tr.com.argela.nfv.onap.service.scenario.RuntimeScenario;
 import tr.com.argela.nfv.onap.service.scenario.ServiceModelScenario;
@@ -84,7 +85,7 @@ public class ScenarioController {
             runScenario(scenario);
 
         } catch (Exception e) {
-
+            scenario.setError(new ScenarioError(e.getClass().getName(), e.getMessage(), e));
         }
         return ResponseEntity.ok(writeToYaml(scenario));
     }

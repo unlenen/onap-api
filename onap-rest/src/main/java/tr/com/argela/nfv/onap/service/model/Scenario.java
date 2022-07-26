@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
  */
-package  tr.com.argela.nfv.onap.service.model;
+package tr.com.argela.nfv.onap.service.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +37,7 @@ import tr.com.argela.nfv.onap.service.constant.ScenarioStatus;
 public class Scenario {
 
     ScenarioStatus scenarioStatus = ScenarioStatus.INIT;
+    ScenarioError error;
     Vendor vendor;
     Service service;
     List<CloudRegion> cloudRegions;
@@ -46,7 +47,7 @@ public class Scenario {
     Map<String, Tenant> tenantMapById = new HashMap();
     @JsonIgnore
     Map<String, VFModuleProfile> profileMapByName = new HashMap();
-    List<ScenarioStatus> actionHistory= new ArrayList<>();
+    List<ScenarioStatus> actionHistory = new ArrayList<>();
 
     public ScenarioStatus getScenarioStatus() {
         return this.scenarioStatus;
