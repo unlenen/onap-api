@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
  */
-package tr.com.argela.nfv.onap.service.service;
+package tr.com.argela.nfv.onap.api.service;
 
 import java.io.File;
 import java.io.IOException;

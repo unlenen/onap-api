@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
  */
-package tr.com.argela.nfv.onap.service.service;
+package tr.com.argela.nfv.onap.api.service;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tr.com.argela.nfv.onap.api.client.OnapClient;
 import tr.com.argela.nfv.onap.api.client.model.OnapRequest;
 import tr.com.argela.nfv.onap.api.client.model.OnapRequestParameters;
-import tr.com.argela.nfv.onap.service.model.VFModuleParameter;
-import tr.com.argela.nfv.onap.service.model.VFModuleProfile;
+import tr.com.argela.nfv.onap.api.client.model.VFModuleParameter;
+import tr.com.argela.nfv.onap.api.client.model.VFModuleProfile;
 
 /**
  *

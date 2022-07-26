@@ -16,6 +16,7 @@
 package tr.com.argela.nfv.onap.service.exception;
 
 import lombok.Getter;
+import tr.com.argela.nfv.onap.api.exception.OnapException;
 import tr.com.argela.nfv.onap.service.model.Service;
 
 /**

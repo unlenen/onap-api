@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
+import tr.com.argela.nfv.onap.api.client.model.VFModuleProfile;
 import  tr.com.argela.nfv.onap.service.model.serverInstance.Server;
 
 /**

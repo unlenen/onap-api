@@ -37,8 +37,8 @@ import org.springframework.web.bind.annotation.RestController;
 import tr.com.argela.nfv.onap.api.client.OnapClient;
 import tr.com.argela.nfv.onap.api.client.model.OnapRequest;
 import tr.com.argela.nfv.onap.api.client.model.OnapRequestParameters;
-import tr.com.argela.nfv.onap.service.model.VFModuleParameter;
-import tr.com.argela.nfv.onap.service.model.VFModuleProfile;
+import tr.com.argela.nfv.onap.api.client.model.VFModuleParameter;
+import tr.com.argela.nfv.onap.api.client.model.VFModuleProfile;
 
 /**
  *

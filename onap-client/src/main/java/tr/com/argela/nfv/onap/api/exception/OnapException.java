@@ -13,36 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
  */
-package  tr.com.argela.nfv.onap.service.model;
+package tr.com.argela.nfv.onap.api.exception;
+
+import lombok.Getter;
 
 /**
  *
  * @author Nebi Volkan UNLENEN(unlenen@gmail.com)
  */
-public class VFModuleParameter {
+@Getter
+public class OnapException extends Exception {
 
-    String name;
-    String value;
-
-    public String getName() {
-        return name;
+    public OnapException(String message) {
+        super(message);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "VFModuleParameter{" + "name=" + name + ", value=" + value + '}';
+    public OnapException(String message, Exception e) {
+        super(message, e);
     }
 
 }

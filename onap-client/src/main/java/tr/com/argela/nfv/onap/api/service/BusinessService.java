@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
  */
-package tr.com.argela.nfv.onap.service.service;
+package tr.com.argela.nfv.onap.api.service;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,8 +28,8 @@ import org.springframework.stereotype.Service;
 import tr.com.argela.nfv.onap.api.client.OnapClient;
 import tr.com.argela.nfv.onap.api.client.model.OnapRequest;
 import tr.com.argela.nfv.onap.api.client.model.OnapRequestParameters;
-import tr.com.argela.nfv.onap.service.exception.CustomerNotFoundException;
-import tr.com.argela.nfv.onap.service.exception.OnapException;
+import tr.com.argela.nfv.onap.api.exception.CustomerNotFoundException;
+import tr.com.argela.nfv.onap.api.exception.OnapException;
 
 /**
  *
