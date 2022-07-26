@@ -15,7 +15,6 @@
  */
 package tr.com.argela.nfv.onap.service.scenario;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -103,7 +102,7 @@ public class RuntimeScenario extends CommonScenario {
         return true;
     }
 
-    private void createOwningEntity(OwningEntity owningEntity) throws IOException {
+    private void createOwningEntity(OwningEntity owningEntity) throws Exception {
         businessService.createOwningEntity(owningEntity.getId(), owningEntity.getName());
         log.info("[Scenario][Runtime][OwningEntity][New] " + owningEntity);
     }
@@ -117,7 +116,7 @@ public class RuntimeScenario extends CommonScenario {
         return true;
     }
 
-    private void createProject(String project) throws IOException {
+    private void createProject(String project) throws Exception {
         businessService.createProject(project);
         log.info("[Scenario][Runtime][Project][New] " + project);
     }
@@ -131,7 +130,7 @@ public class RuntimeScenario extends CommonScenario {
         return true;
     }
 
-    private void createPlatform(String platform) throws IOException {
+    private void createPlatform(String platform) throws Exception {
         businessService.createPlatform(platform);
         log.info("[Scenario][Runtime][Platform][New] " + platform);
     }
@@ -145,7 +144,7 @@ public class RuntimeScenario extends CommonScenario {
         return true;
     }
 
-    private void createLineOfBusiness(String lineOfBusiness) throws IOException {
+    private void createLineOfBusiness(String lineOfBusiness) throws Exception {
         businessService.createLineOfBusiness(lineOfBusiness);
         log.info("[Scenario][Runtime][LineOfBusiness][New] " + lineOfBusiness);
     }
