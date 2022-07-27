@@ -18,21 +18,13 @@ package tr.com.argela.nfv.onap.api.client.http;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.GeneralSecurityException;
 import java.util.Map;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -145,9 +137,9 @@ public class URLConnectionService {
                 }
             }
         }
-
-        log.info("[ONAP][APICALL][" + onapRequest.getCallType() + "] url : " + url + " , data: "
-                + data.replaceAll("\n", " "));
+        if (log.isInfoEnabled())
+            log.info("[ONAP][APICALL][" + onapRequest.getCallType() + "][Request] url : " + url + " , payload: "
+                    + data);
         ResponseEntity<String> response = null;
         switch (onapRequest.getCallType()) {
             default:
@@ -176,10 +168,19 @@ public class URLConnectionService {
         }
 
         int responseCode = response.getStatusCodeValue();
+
         if (responseCode != onapRequest.getValidReturnCode()) {
+            log.error("[ONAP][APICALL][" + onapRequest.getCallType() + "][Response][" + responseCode + "] url : "
+                    + url);
+
             throw new OnapRequestFailedException(onapRequest, url, responseCode, response.getBody());
         }
         String responseBody = response.getBody();
+
+        if (log.isInfoEnabled())
+            log.info("[ONAP][APICALL][" + onapRequest.getCallType() + "][Response][" + responseCode + "] url : " + url
+                    + " , response: "
+                    + responseBody);
 
         switch (onapRequest.getResponseType()) {
             case JSONObject: {

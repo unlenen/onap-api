@@ -55,16 +55,14 @@ public class SubscriptionScenario extends CommonScenario {
     public void processSubscription(Scenario scenario) throws Exception {
         Service service = scenario.getService();
         service.getScenario().mapTenants(service.getScenario());
-        
 
         subscribeService(service);
-        saveCustomers(service);
-        scenario.setScenarioStatus(ScenarioStatus.CUSTOMER_PROCESSED);
-        subscribeConsumers(service);
-        scenario.setScenarioStatus(ScenarioStatus.SERVICE_SUBSCRIPTION_COMPLETED);
+        saveCustomers(scenario, service);
+        subscribeConsumers(scenario, service);
+
     }
 
-    private void saveCustomers(Service service) throws Exception {
+    private void saveCustomers(Scenario scenario, Service service) throws Exception {
         Map<String, Customer> customersAtOnap = getCustomers();
 
         for (Customer customer : service.getCustomers()) {
@@ -72,8 +70,10 @@ public class SubscriptionScenario extends CommonScenario {
             Customer customerOnap = customersAtOnap.get(customer.getId());
             if (customerOnap == null) {
                 createCustomer(customer);
+                scenario.setScenarioStatus(ScenarioStatus.CUSTOMER_CREATED, customer + "");
             } else {
                 customer.copy(customerOnap);
+                scenario.setScenarioStatus(ScenarioStatus.CUSTOMER_FOUND, customer + "");
                 log.info("[Scenario][Subscription][Customer][Exists] " + customerOnap);
             }
         }
@@ -116,27 +116,31 @@ public class SubscriptionScenario extends CommonScenario {
         }
     }
 
-    private void subscribeConsumers(Service service) throws Exception {
+    private void subscribeConsumers(Scenario scenario, Service service) throws Exception {
         for (Customer customer : service.getCustomers()) {
-            subscribeConsumerToService(customer);
+            subscribeConsumerToService(scenario, customer);
         }
     }
 
-    private void subscribeConsumerToService(Customer customer) throws Exception {
+    private void subscribeConsumerToService(Scenario scenario, Customer customer) throws Exception {
         JSONObject subscription = new JSONObject(readResponseValidateOption(
                 businessService.getCustomerServiceSubscription(customer.getId(), customer.getService().getName()),
                 false));
         if (subscription.has("service-type")) {
             log.info("[Scenario][Subscription][Service][Exists] " + customer + " to " + customer.getService());
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_SUBSCRIPTION_CUSTOMER_FOUND,
+                    customer.getService() + " <-> " + customer);
         } else {
             businessService.createCustomerServiceSubscription(customer.getId(), customer.getService().getName());
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_SUBSCRIPTION_CUSTOMER_CREATED,
+                    customer.getService() + " <-> " + customer);
             log.info("[Scenario][Subscription][Service][Create] " + customer + " to " + customer.getService());
         }
 
-        subscribeTenants(customer, subscription);
+        subscribeTenants(scenario, customer, subscription);
     }
 
-    private void subscribeTenants(Customer customer, JSONObject subscription) throws Exception {
+    private void subscribeTenants(Scenario scenario, Customer customer, JSONObject subscription) throws Exception {
         DocumentContext rootContext = JsonPath.parse(subscription.toString());
 
         for (Tenant tenant : customer.getService().getTenants()) {
@@ -158,8 +162,13 @@ public class SubscriptionScenario extends CommonScenario {
             }
             if (!subscriptionFound) {
                 createTenantSubscription(tenant, customer);
+                scenario.setScenarioStatus(ScenarioStatus.SERVICE_SUBSCRIPTION_CUSTOMER_TENANT_CREATED,
+                        customer.getService() + " <-> " + customer + " <-> " + tenant);
                 log.info("[Scenario][Subscription][Service][Tenant][New] " + customer + " to " + customer.getService()
                         + " on " + tenant);
+            }else{
+                scenario.setScenarioStatus(ScenarioStatus.SERVICE_SUBSCRIPTION_CUSTOMER_TENANT_FOUND,
+                        customer.getService() + " <-> " + customer + " <-> " + tenant);
             }
         }
 

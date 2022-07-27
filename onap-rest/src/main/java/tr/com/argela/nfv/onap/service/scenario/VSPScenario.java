@@ -58,25 +58,25 @@ public class VSPScenario extends CommonScenario {
     public void processVSP(Scenario scenario, VSP vsp) throws Exception {
         if (vsp.getId() == null) {
             if (vspExists(vsp)) {
-                scenario.setScenarioStatus(ScenarioStatus.VSP_FOUND);
+                scenario.setScenarioStatus(ScenarioStatus.VSP_FOUND, vsp + "");
                 readVspVersion(vsp);
             } else {
-                scenario.setScenarioStatus(ScenarioStatus.VSP_CREATING);
+                scenario.setScenarioStatus(ScenarioStatus.VSP_CREATING, vsp + "");
                 createVSP(vsp);
-                scenario.setScenarioStatus(ScenarioStatus.VSP_CREATED);
+                scenario.setScenarioStatus(ScenarioStatus.VSP_CREATED, vsp + "");
             }
         }
 
         if (vsp.getVersionStatus() != EntityStatus.CERTIFIED) {
             uploadFile(vsp);
-            scenario.setScenarioStatus(ScenarioStatus.VSP_ARTIFACT_UPLOADED);
+            scenario.setScenarioStatus(ScenarioStatus.VSP_ARTIFACT_UPLOADED, vsp + "");
             processFile(vsp);
-            scenario.setScenarioStatus(ScenarioStatus.VSP_ARTIFACT_PROCESSED);
+            scenario.setScenarioStatus(ScenarioStatus.VSP_ARTIFACT_PROCESSED, vsp + "");
             submitVsp(vsp);
-            scenario.setScenarioStatus(ScenarioStatus.VSP_SUBMIT);
+            scenario.setScenarioStatus(ScenarioStatus.VSP_SUBMIT, vsp + "");
         }
         csarVSP(vsp);
-        scenario.setScenarioStatus(ScenarioStatus.VSP_TO_CSAR);
+        scenario.setScenarioStatus(ScenarioStatus.VSP_TO_CSAR, vsp + "");
     }
 
     private boolean vspExists(VSP vsp) throws Exception {

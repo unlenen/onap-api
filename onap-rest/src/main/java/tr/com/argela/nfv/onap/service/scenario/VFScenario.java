@@ -48,13 +48,13 @@ public class VFScenario extends CommonScenario {
     DesignController designService;
 
     public void processVFs(Scenario scenario) throws Exception {
-        scenario.setScenarioStatus(ScenarioStatus.SERVICE_VF_CREATING);
+
         for (VF vf : scenario.getService().getVfs()) {
             vf.setService(scenario.getService());
             vf.setVsp(findVsp(scenario.getVendor().getVsps(), vf));
-            processVF(vf);
+            processVF(scenario, vf);
         }
-        scenario.setScenarioStatus(ScenarioStatus.SERVICE_VF_CREATED);
+
     }
 
     private VSP findVsp(List<VSP> vsps, VF vf) throws Exception {
@@ -63,27 +63,32 @@ public class VFScenario extends CommonScenario {
                 return vsp;
             }
         }
-        throw new Exception("VF vsp name is not valid . vfName: " + vf.getName() + " , vspName:" + vf.getVsp().getName() + ", vspList:" + vsps.size());
+        throw new Exception("VF vsp name is not valid . vfName: " + vf.getName() + " , vspName:" + vf.getVsp().getName()
+                + ", vspList:" + vsps.size());
     }
 
-    private void processVF(VF vf) throws Exception {
+    private void processVF(Scenario scenario, VF vf) throws Exception {
         if (vfExists(vf)) {
             readVFUniqueId(vf);
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_VF_FOUND, vf + "");
         } else {
             createVF(vf);
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_VF_CREATED, vf + "");
         }
 
         if (vf.getVersionStatus() != EntityStatus.CERTIFIED) {
             if (vf.getVersionStatus() == EntityStatus.NOT_CERTIFIED_CHECKOUT) {
                 checkInVf(vf);
+                scenario.setScenarioStatus(ScenarioStatus.SERVICE_VF_CHECKIN, vf + "");
             }
             certifyVf(vf);
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_VF_CERTIFIED, vf + "");
         }
 
     }
 
     private boolean vfExists(VF vf) throws Exception {
-        String root = readResponseValidateOption(designService.getVFs(),false);
+        String root = readResponseValidateOption(designService.getVFs(), false);
         Filter vfName = Filter.filter(Criteria.where("name").eq(vf.getName()));
         DocumentContext rootContext = JsonPath.parse(root);
         net.minidev.json.JSONArray vfs = rootContext.read("$[?]", vfName);
@@ -92,18 +97,21 @@ public class VFScenario extends CommonScenario {
             vf.setUuid(vfObject.get("uuid"));
             vf.setInvariantUUID(vfObject.get("invariantUUID"));
             vf.setVersionStatus(EntityStatus.valueOf(vfObject.get("lifecycleState").toUpperCase(Locale.ENGLISH)));
-            log.info("[Scenario][VF][Exists] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :" + vf.getInvariantUUID() + " , vfStatus:" + vf.getVersionStatus());
+            log.info("[Scenario][VF][Exists] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :"
+                    + vf.getInvariantUUID() + " , vfStatus:" + vf.getVersionStatus());
         }
         return !vfs.isEmpty();
     }
 
     private void createVF(VF vf) throws Exception {
-        JSONObject root = new JSONObject(readResponse(designService.createVF(vf.getVsp().getVendor().getName(), vf.getVsp().getId(), vf.getVsp().getVersionName(), vf.getName(), vf.getDescription())));
+        JSONObject root = new JSONObject(readResponse(designService.createVF(vf.getVsp().getVendor().getName(),
+                vf.getVsp().getId(), vf.getVsp().getVersionName(), vf.getName(), vf.getDescription())));
         vf.setInvariantUUID(root.getString("invariantUUID"));
         vf.setUniqueId(root.getString("uniqueId"));
         vf.setUuid(root.getString("uuid"));
         vf.setVersionStatus(EntityStatus.valueOf(root.getString("lifecycleState").toUpperCase(Locale.ENGLISH)));
-        log.info("[Scenario][VF][New] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :" + vf.getInvariantUUID() + " , vfStatus:" + vf.getVersionStatus());
+        log.info("[Scenario][VF][New] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :"
+                + vf.getInvariantUUID() + " , vfStatus:" + vf.getVersionStatus());
     }
 
     protected void readVFUniqueId(VF vf) throws Exception {
@@ -111,18 +119,22 @@ public class VFScenario extends CommonScenario {
         vf.setUniqueId(root.getString("uniqueId"));
         vf.setVersionName(root.getString("version"));
         vf.setVersionStatus(EntityStatus.valueOf(root.getString("lifecycleState").toUpperCase(Locale.ENGLISH)));
-        log.info("[Scenario][VF][Exists][UniqueId] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :" + vf.getInvariantUUID() + " , uniqueId:" + vf.getUniqueId() + " , version:" + vf.getVersionName());
+        log.info("[Scenario][VF][Exists][UniqueId] vf:" + vf.getName() + " , uuid : " + vf.getUuid()
+                + " , invariantUUID :" + vf.getInvariantUUID() + " , uniqueId:" + vf.getUniqueId() + " , version:"
+                + vf.getVersionName());
     }
 
     private void checkInVf(VF vf) throws Exception {
         readResponse(designService.checkInVF(vf.getUuid()));
-        log.info("[Scenario][VF][CheckIn] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :" + vf.getInvariantUUID() + " , uniqueId:" + vf.getUniqueId());
+        log.info("[Scenario][VF][CheckIn] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :"
+                + vf.getInvariantUUID() + " , uniqueId:" + vf.getUniqueId());
     }
 
     private void certifyVf(VF vf) throws Exception {
         String data = readResponse(designService.certifyVF(vf.getUniqueId()));
         vf.setVersionStatus(EntityStatus.CERTIFIED);
-        log.info("[Scenario][VF][Certify] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :" + vf.getInvariantUUID() + " , uniqueId:" + vf.getUniqueId() + ",vfStatus:" + vf.getVersionStatus());
+        log.info("[Scenario][VF][Certify] vf:" + vf.getName() + " , uuid : " + vf.getUuid() + " , invariantUUID :"
+                + vf.getInvariantUUID() + " , uniqueId:" + vf.getUniqueId() + ",vfStatus:" + vf.getVersionStatus());
         readVFUniqueId(vf);
     }
 

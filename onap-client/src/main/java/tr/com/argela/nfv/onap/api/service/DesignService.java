@@ -26,9 +26,9 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.jayway.jsonpath.Criteria;
 import com.jayway.jsonpath.DocumentContext;
@@ -43,8 +43,8 @@ import tr.com.argela.nfv.onap.api.client.model.OnapRequestParameters;
  *
  * @author Nebi Volkan UNLENEN(unlenen@gmail.com)
  */
-@RestController
 
+@Service
 public class DesignService {
 
     @Autowired

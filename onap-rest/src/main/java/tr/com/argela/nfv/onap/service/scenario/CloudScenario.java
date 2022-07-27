@@ -44,27 +44,25 @@ public class CloudScenario extends CommonScenario {
     public void processCloudRegions(Scenario scenario) throws Exception {
         for (CloudRegion cloudRegion : scenario.getCloudRegions()) {
             if (!checkComplexExists(cloudRegion.getComplexName())) {
-                scenario.setScenarioStatus(ScenarioStatus.CLOUD_COMPLEX_CREATING);
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_COMPLEX_CREATING, cloudRegion.getComplexName() + "");
                 createComplex(cloudRegion.getComplexName());
-                scenario.setScenarioStatus(ScenarioStatus.CLOUD_COMPLEX_CREATED);
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_COMPLEX_CREATED, cloudRegion.getComplexName() + "");
             } else {
-                scenario.setScenarioStatus(ScenarioStatus.CLOUD_COMPLEX_FOUND);
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_COMPLEX_FOUND, cloudRegion.getComplexName() + "");
             }
             if (!checkCloudRegionExists(cloudRegion.getCloudOwner(), cloudRegion.getName())) {
-                scenario.setScenarioStatus(ScenarioStatus.CLOUD_REGION_CREATING);
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_REGION_CREATING, cloudRegion + "");
                 createCloudRegion(cloudRegion);
-                scenario.setScenarioStatus(ScenarioStatus.CLOUD_REGION_CREATED);
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_REGION_CREATED, cloudRegion + "");
             } else {
-                scenario.setScenarioStatus(ScenarioStatus.CLOUD_REGION_FOUND);
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_REGION_FOUND, cloudRegion + "");
             }
 
             cloudService.createCloudRegionComplexRelations(cloudRegion.getCloudOwner(), cloudRegion.getName(),
                     cloudRegion.getComplexName());
 
-            processTenants(cloudRegion);
-            scenario.setScenarioStatus(ScenarioStatus.CLOUD_TENANT_COMPLETED);
-            processAvailabilityZones(cloudRegion);
-            scenario.setScenarioStatus(ScenarioStatus.CLOUD_AZ_COMPLETED);
+            processTenants(scenario, cloudRegion);
+            processAvailabilityZones(scenario, cloudRegion);
         }
     }
 
@@ -121,11 +119,14 @@ public class CloudScenario extends CommonScenario {
         log.info("[Scenario][Cloud][Region][New] " + cloudRegion);
     }
 
-    private void processTenants(CloudRegion cloudRegion) throws Exception {
+    private void processTenants(Scenario scenario, CloudRegion cloudRegion) throws Exception {
         for (Tenant tenant : cloudRegion.getTenants()) {
             tenant.setCloudRegion(cloudRegion);
             if (!checkTenant(tenant)) {
                 createTenant(tenant);
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_TENANT_CREATED, tenant + "");
+            } else {
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_TENANT_FOUND, tenant + "");
             }
         }
     }
@@ -152,11 +153,14 @@ public class CloudScenario extends CommonScenario {
 
     }
 
-    private void processAvailabilityZones(CloudRegion cloudRegion) throws Exception {
+    private void processAvailabilityZones(Scenario scenario, CloudRegion cloudRegion) throws Exception {
         for (AvailabilityZone availabilityZone : cloudRegion.getAvailabilityZones()) {
             availabilityZone.setCloudRegion(cloudRegion);
             if (!checkAvailabilityZone(availabilityZone)) {
                 createAvailabilityZone(availabilityZone);
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_AZ_CREATED, availabilityZone + "");
+            } else {
+                scenario.setScenarioStatus(ScenarioStatus.CLOUD_AZ_FOUND, availabilityZone + "");
             }
         }
     }

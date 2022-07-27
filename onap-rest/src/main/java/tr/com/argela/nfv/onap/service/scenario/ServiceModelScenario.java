@@ -65,38 +65,36 @@ public class ServiceModelScenario extends CommonScenario {
         Service service = scenario.getService();
         if (serviceExists(service)) {
             readServiceUniqueId(service);
-            scenario.setScenarioStatus(ScenarioStatus.SERVICE_FOUND);
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_FOUND, service + "");
         } else {
-            scenario.setScenarioStatus(ScenarioStatus.SERVICE_CREATING);
             createService(service);
-            scenario.setScenarioStatus(ScenarioStatus.SERVICE_CREATED);
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_CREATED, service + "");
         }
 
         if (service.getDistributionStatus() != DistributionStatus.DISTRIBUTED
                 || service.getVersionStatus() != EntityStatus.CERTIFIED) {
-            addVfsToService(service);
-            scenario.setScenarioStatus(ScenarioStatus.SERVICE_VF_ADDED);
+            addVfsToService(scenario, service);
         }
 
         if (service.getVersionStatus() == EntityStatus.NOT_CERTIFIED_CHECKOUT) {
             certifyService(service);
-            scenario.setScenarioStatus(ScenarioStatus.SERVICE_CERTIFIED);
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_CERTIFIED, service + "");
         }
 
         if (service.getDistributionStatus() == DistributionStatus.DISTRIBUTION_NOT_APPROVED) {
             distributeService(service);
-            scenario.setScenarioStatus(ScenarioStatus.SERVICE_DISTRUBUTE_STARTED);
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_DISTRUBUTE_STARTED, service + "");
         }
         checkDistribution(service);
-        scenario.setScenarioStatus(ScenarioStatus.SERVICE_DISTRUBUTE_COMPLETED);
+        scenario.setScenarioStatus(ScenarioStatus.SERVICE_DISTRUBUTE_COMPLETED, service + "");
         loadVFsModuleInfo(service);
     }
 
-    public void addVfsToService(Service service) throws Exception {
+    public void addVfsToService(Scenario scenario, Service service) throws Exception {
         int index = 1;
         for (VF vf : service.getVfs()) {
-
             addVfToService(vf, index++);
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_VF_ADDED, vf + "");
         }
     }
 

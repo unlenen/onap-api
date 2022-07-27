@@ -48,15 +48,20 @@ public class Scenario {
     Map<String, Tenant> tenantMapById = new HashMap();
     @JsonIgnore
     Map<String, VFModuleProfile> profileMapByName = new HashMap();
-    List<ScenarioStatus> actionHistory = new ArrayList<>();
+    List<String> actionHistory = new ArrayList<>();
 
     public ScenarioStatus getScenarioStatus() {
         return this.scenarioStatus;
     }
 
     public void setScenarioStatus(ScenarioStatus scenarioStatus) {
+        setScenarioStatus(scenarioStatus, null);
+    }
+
+    public void setScenarioStatus(ScenarioStatus scenarioStatus, String message) {
         this.scenarioStatus = scenarioStatus;
-        actionHistory.add(scenarioStatus);
+        String messageData = (message != null) ? scenarioStatus + " --> " + message : scenarioStatus.name();
+        actionHistory.add(messageData);
     }
 
     public void mapTenants(Scenario scenario) {

@@ -13,12 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
  */
-package  tr.com.argela.nfv.onap.service.model;
+package tr.com.argela.nfv.onap.service.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import tr.com.argela.nfv.onap.service.constant.EntityStatus;
 
 /**
@@ -28,12 +29,14 @@ import tr.com.argela.nfv.onap.service.constant.EntityStatus;
 
 @Getter
 @Setter
+@ToString(exclude = { "versionName", "description", "file", "fileWarnings", "vendor" })
 public class VSP {
 
     String id;
+    String name;
     String versionId, versionName;
     EntityStatus versionStatus;
-    String name, description;
+    String description;
     String file;
     String fileWarnings;
     @JsonIgnore

@@ -83,7 +83,9 @@ public class ScenarioController {
             scenario = readFromYaml(yaml);
 
             runScenario(scenario);
-
+        } catch (JsonProcessingException e) {
+            scenario = new Scenario();
+            scenario.setError(new ScenarioError("YamlParseError", e.getMessage(), e));
         } catch (Exception e) {
             scenario.setError(new ScenarioError(e.getClass().getName(), e.getMessage(), e));
         }
@@ -138,7 +140,7 @@ public class ScenarioController {
             log.error("Service Instance is null");
             return;
         }
-        runtimeScenario.processServiceInstances(scenario.getService());
+        runtimeScenario.processServiceInstances(scenario);
     }
 
 }

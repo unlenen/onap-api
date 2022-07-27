@@ -31,11 +31,13 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.Filter;
 import com.jayway.jsonpath.JsonPath;
 
+import tr.com.argela.nfv.onap.service.constant.ScenarioStatus;
 import tr.com.argela.nfv.onap.service.controller.BusinessController;
 import tr.com.argela.nfv.onap.service.controller.CloudController;
 import tr.com.argela.nfv.onap.service.controller.RuntimeController;
 import tr.com.argela.nfv.onap.service.model.CloudRegion;
 import tr.com.argela.nfv.onap.service.model.OwningEntity;
+import tr.com.argela.nfv.onap.service.model.Scenario;
 import tr.com.argela.nfv.onap.service.model.Service;
 import tr.com.argela.nfv.onap.service.model.ServiceInstance;
 import tr.com.argela.nfv.onap.service.model.Tenant;
@@ -68,17 +70,23 @@ public class RuntimeScenario extends CommonScenario {
     @Autowired
     BusinessController businessService;
 
-    public void processServiceInstances(Service service) throws Exception {
+    public void processServiceInstances(Scenario scenario) throws Exception {
 
+        Service service = scenario.getService();
         for (ServiceInstance serviceInstance : service.getServiceInstances()) {
 
             serviceInstance.setService(service);
             processGeneralEntities(serviceInstance);
             if (!serviceInstanceExists(serviceInstance)) {
                 createServiceInstance(serviceInstance);
+                scenario.setScenarioStatus(ScenarioStatus.SERVICE_INSTANCE_CREATE_REQUESTED, serviceInstance + "");
                 waitForComplete(serviceInstance.getReqUrl(), serviceInstance);
+                scenario.setScenarioStatus(ScenarioStatus.SERVICE_INSTANCE_CREATED, serviceInstance + "");
+            } else {
+                scenario.setScenarioStatus(ScenarioStatus.SERVICE_INSTANCE_FOUND, serviceInstance + "");
             }
-            processVNFs(serviceInstance);
+
+            processVNFs(scenario, serviceInstance);
         }
     }
 
@@ -93,8 +101,7 @@ public class RuntimeScenario extends CommonScenario {
 
     private boolean checkOwningEntity(OwningEntity owningEntity) throws Exception {
         JSONObject root = new JSONObject(readResponseValidateOption(businessService.getOwningEntity(
-                owningEntity.getId()
-        ), false));
+                owningEntity.getId()), false));
         if (root.has("error")) {
             return false;
         }
@@ -136,7 +143,8 @@ public class RuntimeScenario extends CommonScenario {
     }
 
     private boolean checkLineOfBusiness(String lineOfBusiness) throws Exception {
-        JSONObject root = new JSONObject(readResponseValidateOption(businessService.getLineOfBusiness(lineOfBusiness), false));
+        JSONObject root = new JSONObject(
+                readResponseValidateOption(businessService.getLineOfBusiness(lineOfBusiness), false));
         if (root.has("error")) {
             return false;
         }
@@ -150,12 +158,14 @@ public class RuntimeScenario extends CommonScenario {
     }
 
     private boolean serviceInstanceExists(ServiceInstance serviceInstance) throws Exception {
-        String data = readResponseValidateOption(runtimeService.getServiceInstances(serviceInstance.getCustomer().getId()), false);
+        String data = readResponseValidateOption(
+                runtimeService.getServiceInstances(serviceInstance.getCustomer().getId()), false);
         Filter serviceInstanceNameFilter = Filter.filter(Criteria.where("name").eq(serviceInstance.getName()));
         DocumentContext rootContext = JsonPath.parse(data);
         net.minidev.json.JSONArray foundServiceInstances = rootContext.read("$[?]", serviceInstanceNameFilter);
         if (!foundServiceInstances.isEmpty()) {
-            LinkedHashMap<String, String> serviceInstanceObj = (LinkedHashMap<String, String>) foundServiceInstances.get(0);
+            LinkedHashMap<String, String> serviceInstanceObj = (LinkedHashMap<String, String>) foundServiceInstances
+                    .get(0);
             serviceInstance.setId(serviceInstanceObj.get("id"));
             log.info("[Scenario][Runtime][ServiceInstance][Exists] " + serviceInstance);
             return true;
@@ -171,8 +181,7 @@ public class RuntimeScenario extends CommonScenario {
                 serviceInstance.getOwningEntity().getId(),
                 serviceInstance.getOwningEntity().getName(),
                 serviceInstance.getCustomer().getId(),
-                serviceInstance.getProject()
-        )));
+                serviceInstance.getProject())));
 
         JSONObject requestReferences = root.getJSONObject("requestReferences");
         serviceInstance.setId(requestReferences.getString("instanceId"));
@@ -208,7 +217,7 @@ public class RuntimeScenario extends CommonScenario {
         }
     }
 
-    private void processVNFs(ServiceInstance serviceInstance) throws Exception {
+    private void processVNFs(Scenario scenario, ServiceInstance serviceInstance) throws Exception {
         if (serviceInstance.getVnfs() == null) {
             log.info("[Scenario][Runtime][ServiceInstance][No VNF-Module] " + serviceInstance);
             return;
@@ -216,7 +225,8 @@ public class RuntimeScenario extends CommonScenario {
         for (VNF vnf : serviceInstance.getVnfs()) {
             vnf.setServiceInstance(serviceInstance);
             vnf.setVf(vnf.getServiceInstance().getService().getVFByName(vnf.getVf().getName()));
-            Tenant tenant = vnf.getServiceInstance().getService().getScenario().getTenantMapById().get(vnf.getTenant().getId());
+            Tenant tenant = vnf.getServiceInstance().getService().getScenario().getTenantMapById()
+                    .get(vnf.getTenant().getId());
             vnf.setTenant(tenant);
 
             if (!checkPlatform(vnf.getPlatform())) {
@@ -229,9 +239,13 @@ public class RuntimeScenario extends CommonScenario {
 
             if (!vnfExists(vnf)) {
                 createVNF(vnf);
+                scenario.setScenarioStatus(ScenarioStatus.VNF_CREATE_REQUESTED, vnf + "");
                 waitForComplete(vnf.getReqUrl(), vnf);
+                scenario.setScenarioStatus(ScenarioStatus.VNF_CREATED, vnf + "");
+            } else {
+                scenario.setScenarioStatus(ScenarioStatus.VNF_FOUND, vnf + "");
             }
-            processVFModules(vnf);
+            processVFModules(scenario, vnf);
         }
     }
 
@@ -239,8 +253,7 @@ public class RuntimeScenario extends CommonScenario {
         String data = readResponseValidateOption(runtimeService.getVNFDetailByService(
                 vnf.getServiceInstance().getService().getUniqueId(),
                 vnf.getName()),
-                false
-        );
+                false);
         JSONObject root = new JSONObject(data);
         if (!root.has("generic-vnf")) {
             return false;
@@ -283,19 +296,25 @@ public class RuntimeScenario extends CommonScenario {
         log.info("[Scenario][Runtime][VNF][New] " + vnf);
     }
 
-    private void processVFModules(VNF vnf) throws Exception {
+    private void processVFModules(Scenario scenario , VNF vnf) throws Exception {
         if (vnf.getVfModules() != null) {
             for (VFModule vfModule : vnf.getVfModules()) {
                 vfModule.setVnf(vnf);
-                vfModule.setProfile(vnf.getServiceInstance().getService().getScenario().getProfileMapByName().get(vfModule.getProfile().getName()));
+                vfModule.setProfile(vnf.getServiceInstance().getService().getScenario().getProfileMapByName()
+                        .get(vfModule.getProfile().getName()));
                 boolean vfModuleAlive = true;
                 if (!vfModuleExists(vfModule)) {
                     preloadVFModule(vfModule);
+                    scenario.setScenarioStatus(ScenarioStatus.VF_MODULE_PRELOAD, vfModule + "");
                     createVFModule(vfModule);
+                    scenario.setScenarioStatus(ScenarioStatus.VF_MODULE_CREATE_REQUESTED, vfModule + "");
                     vfModuleAlive = waitForComplete(vfModule.getReqUrl(), vfModule);
+                    scenario.setScenarioStatus(ScenarioStatus.VF_MODULE_CREATED, vfModule + "");
                     if (vfModuleAlive) {
                         loadVFModuleDetails(vfModule);
                     }
+                }else{
+                    scenario.setScenarioStatus(ScenarioStatus.VF_MODULE_FOUND, vfModule + "");
                 }
 
                 if (vfModuleAlive) {
@@ -317,7 +336,8 @@ public class RuntimeScenario extends CommonScenario {
     }
 
     private boolean vfModuleExists(VFModule vfModule) throws Exception {
-        JSONObject root = new JSONObject(readResponseValidateOption(runtimeService.getVFModules(vfModule.getVnf().getId()), false));
+        JSONObject root = new JSONObject(
+                readResponseValidateOption(runtimeService.getVFModules(vfModule.getVnf().getId()), false));
         if (root.has("error")) {
             return false;
         }
@@ -358,8 +378,7 @@ public class RuntimeScenario extends CommonScenario {
                 vfModule.getName(),
                 vfModel.getModelType(),
                 vfModule.getAvailabilityZone(),
-                vfModule.getProfile()
-        )));
+                vfModule.getProfile())));
         String preloadResult = "fail";
         if (root.has("output")) {
             preloadResult = root.getJSONObject("output").getString("response-message");
@@ -389,8 +408,7 @@ public class RuntimeScenario extends CommonScenario {
                 vfModel.getModelType(),
                 vnf.getVf().getModelName(),
                 vfModel.getModelInvariantUUID(),
-                vfModel.getModelCustomizationUUID()
-        )));
+                vfModel.getModelCustomizationUUID())));
 
         JSONObject requestReferences = root.getJSONObject("requestReferences");
         vfModule.setId(requestReferences.getString("instanceId"));
@@ -426,8 +444,7 @@ public class RuntimeScenario extends CommonScenario {
                 cloudRegion.getCloudOwner(),
                 cloudRegion.getName(),
                 vfModule.getVnf().getTenant().getId(),
-                vfModule.getServer().getId()
-        )));
+                vfModule.getServer().getId())));
 
         OpenstackServer server = (OpenstackServer) vfModule.getServer();
         server.setName(vServer.getString("vserver-name"));
@@ -442,15 +459,18 @@ public class RuntimeScenario extends CommonScenario {
 
                 switch (relatedTo) {
                     case "pserver": {
-                        server.setNode((OpenstackComputeNode) readPropertyValue(relation, new OpenstackComputeNode(), "pserver.hostname", "pserver.pserver-name2"));
+                        server.setNode((OpenstackComputeNode) readPropertyValue(relation, new OpenstackComputeNode(),
+                                "pserver.hostname", "pserver.pserver-name2"));
                         break;
                     }
                     case "image": {
-                        server.setImage((OpenstackImage) readPropertyValue(relation, new OpenstackImage(), "image.image-id", "image.image-name"));
+                        server.setImage((OpenstackImage) readPropertyValue(relation, new OpenstackImage(),
+                                "image.image-id", "image.image-name"));
                         break;
                     }
                     case "flavor": {
-                        server.setFlavor((OpenstackFlavor) readPropertyValue(relation, new OpenstackFlavor(), "flavor.flavor-id", "flavor.flavor-name"));
+                        server.setFlavor((OpenstackFlavor) readPropertyValue(relation, new OpenstackFlavor(),
+                                "flavor.flavor-id", "flavor.flavor-name"));
                         if (server.getFlavor().getId() != null) {
                             loadVServerFlavorDetail(vfModule, server);
                         }
@@ -462,7 +482,8 @@ public class RuntimeScenario extends CommonScenario {
         }
     }
 
-    private ServerEntity readPropertyValue(JSONObject relation, ServerEntity serverEntity, String relationKey, String propertyKey) throws JSONException {
+    private ServerEntity readPropertyValue(JSONObject relation, ServerEntity serverEntity, String relationKey,
+            String propertyKey) throws JSONException {
         if (serverEntity == null) {
             serverEntity = new ServerEntity();
         }
@@ -485,7 +506,8 @@ public class RuntimeScenario extends CommonScenario {
     }
 
     private void loadVFModuleDetails(VFModule vfModule) throws Exception {
-        JSONObject root = new JSONObject(readResponse(runtimeService.getVFModuleDetail(vfModule.getVnf().getId(), vfModule.getId())));
+        JSONObject root = new JSONObject(
+                readResponse(runtimeService.getVFModuleDetail(vfModule.getVnf().getId(), vfModule.getId())));
         switch (vfModule.getVnf().getTenant().getCloudRegion().getCloudType()) {
             case OPENSTACK: {
                 loadOpenstackVmInformationFromVFModuleData(vfModule, root);
@@ -505,8 +527,7 @@ public class RuntimeScenario extends CommonScenario {
         JSONObject root = new JSONObject(readResponse(cloudService.getFlavorDetail(
                 cloudRegion.getCloudOwner(),
                 cloudRegion.getName(),
-                openstackServer.getFlavor().getId()
-        )));
+                openstackServer.getFlavor().getId())));
 
         OpenstackFlavor flavor = openstackServer.getFlavor();
         flavor.setVcpu(root.getInt("flavor-vcpus"));
@@ -528,8 +549,7 @@ public class RuntimeScenario extends CommonScenario {
 
     private void loadK8SInstInformation(VFModule vfModule) throws Exception {
         JSONObject helmInstanceObj = new JSONObject(readResponse(cloudService.getK8SInstanceDetail(
-                vfModule.getServer().getId()
-        )));
+                vfModule.getServer().getId())));
 
         if (helmInstanceObj.has("error")) {
             return;
