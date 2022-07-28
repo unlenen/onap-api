@@ -83,10 +83,10 @@ public class ServiceModelScenario extends CommonScenario {
 
         if (service.getDistributionStatus() == DistributionStatus.DISTRIBUTION_NOT_APPROVED) {
             distributeService(service);
-            scenario.setScenarioStatus(ScenarioStatus.SERVICE_DISTRUBUTE_STARTED, service + "");
+            scenario.setScenarioStatus(ScenarioStatus.SERVICE_DISTRIBUTE_STARTED, service + "");
         }
         checkDistribution(service);
-        scenario.setScenarioStatus(ScenarioStatus.SERVICE_DISTRUBUTE_COMPLETED, service + "");
+        scenario.setScenarioStatus(ScenarioStatus.SERVICE_DISTRIBUTE_COMPLETED, service + "");
         loadVFsModuleInfo(service);
     }
 

@@ -241,7 +241,7 @@ public class BusinessService {
     }
 
     public JSONObject getLineOfBusinesses() throws IOException {
-        JSONObject data = (JSONObject) adaptor.call(OnapRequest.BUSINESS_LineOfBusiness);
+        JSONObject data = (JSONObject) adaptor.call(OnapRequest.BUSINESS_LineOfBusinesses);
 
         if (log.isInfoEnabled())
             log.info("[Business][LineOfBusinesses][Get]");

@@ -88,6 +88,7 @@ public class ScenarioController {
             scenario.setError(new ScenarioError("YamlParseError", e.getMessage(), e));
         } catch (Exception e) {
             scenario.setError(new ScenarioError(e.getClass().getName(), e.getMessage(), e));
+            log.error(e.getMessage()+" ---------- "+scenario, e);
         }
         return ResponseEntity.ok(writeToYaml(scenario));
     }
