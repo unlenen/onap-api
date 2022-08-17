@@ -21,8 +21,13 @@ This project aims to call ONAP complex APIs easily with converting them basic re
 
 ## DOCKER Container Usage
 ```
+    # Compile and run
     cd onap-rest
     docker build . -t unlenen/onap-api:1.0
+    docker run --name unlenen-onap-api -d -e ONAP_IP=<YOUR_ONAP_IP> -p 8080:8080 unlenen/onap-api:1.0
+    
+    
+    # Docker hub
     docker run --name unlenen-onap-api -d -e ONAP_IP=<YOUR_ONAP_IP> -p 8080:8080 unlenen/onap-api:1.0
 ```
 
