@@ -4,19 +4,19 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>tr.com.argela</groupId>
+    <groupId>unlenen</groupId>
     <artifactId>onap-service</artifactId>
     <version>1.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>tr.com.argela</groupId>
+  <groupId>unlenen</groupId>
   <artifactId>onap-rest</artifactId>
   <version>1.0</version>
   <name>onap-rest</name>
 
   <properties>
-    <start-class>tr.com.argela.nfv.onap.Application</start-class>
+    <start-class>unlenen.onap.Application</start-class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
@@ -24,7 +24,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>tr.com.argela</groupId>
+      <groupId>unlenen</groupId>
       <artifactId>onap-client</artifactId>
       <version>1.0</version>
     </dependency>
@@ -53,7 +53,7 @@
       <artifactId>springfox-swagger-ui</artifactId>
       <version>3.0.0</version>
     </dependency>
-  
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>

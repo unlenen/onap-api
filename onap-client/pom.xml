@@ -4,19 +4,18 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>tr.com.argela</groupId>
+    <groupId>unlenen</groupId>
     <artifactId>onap-service</artifactId>
     <version>1.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>tr.com.argela</groupId>
+  <groupId>unlenen</groupId>
   <artifactId>onap-client</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>onap-client</name>
-  <url>http://www.argela.com.tr</url>
 
   <dependencies>
     <dependency>

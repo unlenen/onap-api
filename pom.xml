@@ -3,13 +3,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>tr.com.argela</groupId>
+  <groupId>unlenen</groupId>
   <artifactId>onap-service</artifactId>
   <version>1.0</version>
   <packaging>pom</packaging>
 
-  <name>Argela ONAP API Parent</name>
-  <url>http://www.argela.com.tr</url>
+  <name>Unlenen ONAP API Parent</name>
 
   <parent>
     <groupId>org.springframework.boot</groupId>

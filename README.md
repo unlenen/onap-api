@@ -1,34 +1,47 @@
-# Argela ONAP API
+# Unlenen ONAP API
 
 ```
-                          _           ____  _   _          _____             _____ _____ 
-     /\                  | |         / __ \| \ | |   /\   |  __ \      /\   |  __ \_   _|
-    /  \   _ __ __ _  ___| | __ _   | |  | |  \| |  /  \  | |__) |    /  \  | |__) || |  
-   / /\ \ | '__/ _` |/ _ \ |/ _` |  | |  | | . ` | / /\ \ |  ___/    / /\ \ |  ___/ | |  
-  / ____ \| | | (_| |  __/ | (_| |  | |__| | |\  |/ ____ \| |       / ____ \| |    _| |_ 
- /_/    \_\_|  \__, |\___|_|\__,_|   \____/|_| \_/_/    \_\_|      /_/    \_\_|   |_____|
-                __/ |                                                                    
-               |___/                                                                     
-
+  _    _       _                          ____  _   _          _____             _____ _____ 
+ | |  | |     | |                        / __ \| \ | |   /\   |  __ \      /\   |  __ \_   _|
+ | |  | |_ __ | | ___ _ __   ___ _ __   | |  | |  \| |  /  \  | |__) |    /  \  | |__) || |  
+ | |  | | '_ \| |/ _ \ '_ \ / _ \ '_ \  | |  | | . ` | / /\ \ |  ___/    / /\ \ |  ___/ | |  
+ | |__| | | | | |  __/ | | |  __/ | | | | |__| | |\  |/ ____ \| |       / ____ \| |    _| |_ 
+  \____/|_| |_|_|\___|_| |_|\___|_| |_|  \____/|_| \_/_/    \_\_|      /_/    \_\_|   |_____|
+                                                                                             
 Written By: Nebi Volkan UNLENEN ( unlenen@gmail.com ) 
 ```
+
+## Written By
+- Nebi Volkan ÜNLENEN (unlenen@gmail.com)
+
+
+## Introduction
 
 This project aims to call ONAP complex APIs easily with converting them basic rest APIs.
 
 ## DOCKER Container Usage
 ```
-    docker run --name onap-as-a-service -d -e ONAP_IP=192.168.135.171 -p 8080:8080 unlenen/onap-as-a-service
+    cd onap-rest
+    docker build . -t unlenen/onap-api:1.0
+    docker run --name unlenen-onap-api -d -e ONAP_IP=<YOUR_ONAP_IP> -p 8080:8080 unlenen/onap-api:1.0
 ```
+
+## Licence
+
+GNU Affero General Public License v3.0
+
+## Usage
+
+You are welcome to use in your projects . Any changes or improvement in code line must be pushed to this repository as a branch rather than onap-client/src/main/resources/application.properties (Property File) . 
 
 ## COMPILE
 ```
     mvn clean install
 ```
-    
 
 ## RUN
 ```
-    java -jar target/onap_service_manager-1.0.jar --onap.ip=<ONAP_IP> --server.port=8080
+    java -jar onap-rest/target/onap-rest-1.0.jar --onap.ip=<ONAP_IP> --server.port=8080
 ```
 
 ## USAGE 
@@ -54,7 +67,7 @@ Scenario Service allows to create ONAP resource automaticaly from a yaml file
 ```yaml
 #########################################################################
 #                                                                       #
-#       ARGELA TECHNOLOGIES                                             #
+#       Unlenen                                                         #
 #       ONAP AS A SERVICE DEMO DATA                                     #
 #       App1 : Nginx                                                    #
 #       App2 : Mysql                                                    #
@@ -70,30 +83,24 @@ Scenario Service allows to create ONAP resource automaticaly from a yaml file
 
 # Vendor and App Definitions
 vendor:
-  name: Argela
-  description: Argela
+  name: Unlenen
+  description: Unlenen
   vsps:
   - name: Nginx
     description: Nginx Server
-    file: d:\\ArgelaNginx.zip
+    file: d:\\UnlenenNginx.zip
   - name: MysqlServer 
     description: Mysql Server 
-    file: d:\\ArgelaMysqlServer.zip
+    file: d:\\UnlenenMysqlServer.zip
     
 # Service Definitions
 service:
-  name: ArgelaWebService
-  description: ArgelaWebService
+  name: Unlenen_WebPOC
+  description: Unlenen_WebPOC
   # Customers
   customers:
   - id: nebiunlenen
     name: Nebi Volkan Unlenen
-  - id: canerturkaslan
-    name: Muhammed Caner Turkaslan
-  - id: hilalalsac
-    name: Feyza Hilal Alsac
-  - id: erolozcan
-    name: Erol Ozcan
     
   # Related Tenants
   tenants:
@@ -113,18 +120,18 @@ service:
   
   # Service Instances
   serviceInstances:
-  - name: ArgelaWebService_Instance_Nebi_Unlenen
+  - name: Unlenen_WebPOC_ServiceInstance
     customer:
       id: nebiunlenen
     owningEntity:
       id: a4dc9387-4548-43b3-8aed-5a38c9331d3d
-      name: Argela_NFV_CC
-    project: Argela_NFV_CC_ONAP_VNF_DEMO
+      name: Unlenen_ONAP_POC
+    project: Unlenen_ONAP_VNF_DEMO
     # Vnfs
     vnfs:
-    - name: ArgelaWebService_Instance_Nebi_Unlenen_Istanbul_Nginx_Vnf
-      lineOfBusiness: NFV_POC
-      platform: Argela_Istanbul_NFVLAB_Openstack
+    - name: Unlenen_WebPOC_ServiceInstance_Nginx_VNF
+      lineOfBusiness: Orchestration
+      platform: Unlenen_Cloud_OS1
       tenant:
         id: 5aa6ebb7ed1145f1b59c579d01c4ad36
       vf: 
@@ -132,16 +139,16 @@ service:
       
       # Vnf modules
       vfModules:
-      - name: ArgelaWebService_Instance_Nebi_Unlenen_Istanbul_Nginx_VfModule
+      - name: Unlenen_WebPOC_ServiceInstance_Nginx_VFModule
         availabilityZone: nova
         vfModel:
           modelType: Nginx..nginx..module-0
         profile:
           name: NginxProfile
     # Vnfs  
-    - name: ArgelaWebService_Instance_Nebi_Unlenen_Istanbul_Mysql_Vnf
-      lineOfBusiness: NFV_POC
-      platform: Argela_Istanbul_NFVLAB_Openstack
+    - name: Unlenen_WebPOC_ServiceInstance_Mysql_VNF
+      lineOfBusiness: Orchestration
+      platform: Unlenen_Cloud_OS1
       tenant:
         id: 5aa6ebb7ed1145f1b59c579d01c4ad36
       vf: 
@@ -149,7 +156,7 @@ service:
     
       # Vnf modules
       vfModules:
-      - name: ArgelaWebService_Instance_Nebi_Unlenen_Istanbul_Mysql_VfModule
+      - name: Unlenen_WebPOC_ServiceInstance_Mysql_VfModule
         availabilityZone: nova
         vfModel:
           modelType: Mysqlserver..mysql..module-0
@@ -158,16 +165,16 @@ service:
           
          
 cloudRegions:
-# Istanbul Openstack
+# Unlenen_Cloud_Zone1
 - cloudOwner: CloudOwner
-  name: argela_ist_kolla_openstack_regionone
-  complexName: argela_ist_nfvlab
-  regionName: RegionOne
-  domain: argela
+  name: Unlenen_Cloud_Zone1
+  complexName: Unlenen_Cloud_Region1
+  regionName: Eryaman
+  domain: unlenen
   defaultProject: onap_project
   authServiceURL: "https://<openstack-ip>:5000/v3"
   authUser: "onap_user"
-  authPassword: "argela"
+  authPassword: "unlenen123*"
   cloudType: OPENSTACK
   tenants:
   - id: 5aa6ebb7ed1145f1b59c579d01c4ad36
@@ -175,16 +182,16 @@ cloudRegions:
   availabilityZones:
   - name: nova
     hypervisorType: kvm
-# Ankara Openstack
+# Unlenen_Cloud_Zone2
 - cloudOwner: CloudOwner
-  name: argela_ankara_openstack_regionone
-  complexName: argela_ankara_nfvlab
-  regionName: RegionOne
-  domain: argela
+  name: Unlenen_Cloud_Zone2
+  complexName: Unlenen_Cloud_Region2
+  regionName: Kecioren
+  domain: unlenen
   defaultProject: onap_project
   authServiceURL: "https://<openstack-ip>:5000/v3"
   authUser: "onap_user"
-  authPassword: "argela"
+  authPassword: "unlenen123*"
   cloudType: OPENSTACK
   tenants:
   - id: 207a223d949544c38c8e369bc309c381
@@ -203,9 +210,9 @@ profiles:
   - name: vnf_network_name
     value: ONAP_VNF_PRIVATE_NET
   - name: vnf_name
-    value: ArgelaAppService_Istanbul_Vnf_Test1
+    value: Unlenen_WebPOC_Nginx_Vnf
   - name: dcae_collector_ip
-    value: 192.168.135.171
+    value: 10.10.1.1
   - name: dcae_collector_port
     value: 30417
 - name: MysqlServerProfile
@@ -217,9 +224,9 @@ profiles:
   - name: vnf_network_name
     value: ONAP_VNF_PRIVATE_NET
   - name: vnf_name
-    value: ArgelaAppService_Istanbul_Vnf_Test2
+    value: Unlenen_WebPOC_Mysql_Vnf
   - name: dcae_collector_ip
-    value: 192.168.135.171
+    value: 10.10.1.1
   - name: dcae_collector_port
     value: 30417
 ```  
@@ -229,7 +236,7 @@ profiles:
 ```yaml
 #########################################################################
 #                                                                       #
-#       ARGELA TECHNOLOGIES                                             #
+#       Unlenen TECHNOLOGIES                                             #
 #       ONAP AS A SERVICE DEMO DATA                                     #
 #       App1 : Nginx                                                    #
 #                                                                       #
@@ -243,17 +250,17 @@ profiles:
 
 # Vendor and App Definitions
 vendor:
-  name: Argela_Test
-  description: Argela_Test
+  name: Unlenen
+  description: Unlenen
   vsps:
-  - name: CNF_Nginx_Helm_3
+  - name: Nginx_CNF
     description: Nginx Server
-    file: d:\\data\helm\native_argela_nginx_cnf.zip
+    file: d:\\data\helm\native_Unlenen_nginx_cnf.zip
     
 # Service Definitions
 service:
-  name: CNF_ArgelaWebService_Helm3
-  description: ArgelaCNFWebService
+  name: Unlenen_Web_CNF_POC
+  description: Unlenen_Web_CNF_POC
   # Customers
   customers:
   - id: nebiunlenen
@@ -261,53 +268,53 @@ service:
     
   # Related Tenants
   tenants:
-  - id: argelans
+  - id: unlenen-ns
   
   # Service Components
   vfs:
-  - name: CNF_Nginx_Helm_3
+  - name: Nginx_CNF
     description: CNF_Nginx
     vsp:
-      name: CNF_Nginx_Helm_3
+      name: Nginx_CNF
   
   # Service Instances   
   serviceInstances:
-  - name: CNF_ArgelaWebService_Instance_Nebi_Unlenen
+  - name: Unlenen_Web_CNF_POC_ServiceInstance
     customer:
       id: nebiunlenen
     owningEntity:
       id: a4dc9387-4548-43b3-8aed-5a38c9331d3d
-      name: Argela_NFV_CC
-    project: Argela_NFV_CC_ONAP_VNF_DEMO
+      name: Unlenen_Cloud
+    project: Unlenen_ONAP_CNF_DEMO
     
     # Vnfs
     vnfs:
-    - name: CNF_ArgelaWebService_Instance_Nebi_Unlenen_Ist_Nfvlab_Onap_k8s_vnf
-      lineOfBusiness: NFV_POC
-      platform: Argela_Istanbul_NFVLAB_Openstack
+    - name: Unlenen_Web_CNF_VNF
+      lineOfBusiness: Orchestration
+      platform: Unlenen_Cloud_K8S1
       tenant:
-        id: argelans
+        id: unlenen-ns
       vf: 
-        name: CNF_Nginx_Helm_3
+        name: Nginx_CNF
       vfModules:
-      - name: CNF_ArgelaWebService_Instance_Nebi_Unlenen_Ist_Nfvlab_Onap_k8s_VF
+      - name: Unlenen_Web_CNF_VfModule
         availabilityZone: K8S
         vfModel:
-          modelType: CnfNginxHelm3..helm_nginx..module-1
+          modelType: Nginx_CNF..helm_nginx..module-1
         profile:
           name: NginxProfile
   
 cloudRegions:
 - cloudOwner: CloudOwner
-  name: argela_ist_nfvlab_onap_k8s_inst1_135_152
-  complexName: argela_ist_nfvlab
-  regionName: argela_ist_nfvlab_onap_k8s
+  name: Unlenen_CloudLab_k8s
+  complexName: Unlenen_CloudLab
+  regionName: Unlenen_CloudLab_k8s
   cloudType: KUBERNETES
-  domain: argelans
+  domain: Unlenenns
   configParameters: '{"apiVersion":"v1","kind":"Config","clusters":[{"cluster":{"api-version":"v1","certificate-authority-data":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN3akNDQWFxZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFTTVJBd0RnWURWUVFERXdkcmRXSmwKTFdOaE1CNFhEVEl4TVRBd09EQXdORFl5TVZvWERUTXhNVEF3TmpBd05EWXlNVm93RWpFUU1BNEdBMVVFQXhNSAphM1ZpWlMxallUQ0NBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQUt2ZktOVEVham53CkJWcHRaU2FhZFdTOVNwTE1sQ0xYcVJFb1FBWkJRbk90UVlDeUU1Undsb2tpS0JCT0tNR1NFa1lMVGVGT0RieTkKZXdDYUt3KzEwM1ZwWlVpaGpzRGpTZzhzUGp3TXNWL2dyeks5WFl6WHY3bTRPbnFITWlRUnRMU1lacVpkYzBNNgpESkR6bUNFQmZXVXlzSFdGQldJMG5hRmgwTFRGQ2JUUUM0SWc5Z1dSVFI2MFhNNjhzTkl3QUNXVStiK0xXa1pvCkk5c1NIMk9yRXV0N1RCK1pralArVlZjcm1RMWoxby9URjN2WU5UVC92VVptVVRickZ0U285R0MyMUlBMnM1bDkKZ2pSWHNESnJVUTdyTHgycWJOV081cENETTRBRkhSR0RFMXNaY1BOb0t5ZFZEcWFFdzY2Z09BUWxVUjNvUndwTwoyeXhjZGNYNmZFa0NBd0VBQWFNak1DRXdEZ1lEVlIwUEFRSC9CQVFEQWdLa01BOEdBMVVkRXdFQi93UUZNQU1CCkFmOHdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBREJqQk1RTzNBQUJiMWltYmFzRlpCL0E5NXNCeFBHNzB4djUKWmdBWS92YXExeHEvVERwcHBIUUYrUWtFS1o5a1ZLR0k3d2Zrc01LWGtJaVpwc1FJSVI5ZXY4cWU2R2EvSUQzZgpYYzlGUXFqdWxsVFNTcFViY281L09Md2F4bnZiM2Z2Z0kxOVY5c3owM2M0OXB6NU1iRUhxUHpiMzFvRWliNy9ICmlmVnlqaFVRMGFPV1RRZU9YTDJiWG5uN2lpMkNrcVZiL0Y3emxUaVZsSTVvdHowVDhPRm5XRUxNTDZxMDJwdkEKUDczWFVOMWxwQVNnZ1pRYis5YU1wVktsQ3ZnRUhhcndlL3FkV0sxOTkrdzIxQ1B3QkZOeUs4dGRKKzhFd0tCMQpSWGx2b0VpZG5oblJIanpFNEk5TG9LRktENVBuT0JMNHIva2svTHJxam85RllrT0wvcGM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K","server":"https://192.168.135.111:6443"},"name":"cnf-cluster"}],"contexts":[{"context":{"cluster":"cnf-cluster","user":"kube-admin-cnf-cluster"},"name":"cnf-cluster"}],"current-context":"cnf-cluster","users":[{"name":"kube-admin-cnf-cluster","user":{"client-certificate-data":"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM2VENDQWRHZ0F3SUJBZ0lJWFJUd0tBak9hZDh3RFFZSktvWklodmNOQVFFTEJRQXdFakVRTUE0R0ExVUUKQXhNSGEzVmlaUzFqWVRBZUZ3MHlNVEV3TURnd01EUTJNakZhRncwek1URXdNRFl3TURRM01qTmFNQzR4RnpBVgpCZ05WQkFvVERuTjVjM1JsYlRwdFlYTjBaWEp6TVJNd0VRWURWUVFERXdwcmRXSmxMV0ZrYldsdU1JSUJJakFOCkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXF4bGtsaGRQS2VyM0dnalBxSWRoOE1LcFBnSVcKWWFrUCtFUU8ydXVmNTRLeWxrb20xUW9MYzMyczJQR1pDRVBvQkZjV0dvbVNjL2VtZVNjRXBXUUljUElVYkdzTQpqM2F2bHJtWXNzUVlLWWdWWTNhd2ZQTUw4VW5Wczh1VjJ6UGpWaXh3TFU1b2djRFE2Qlc5U2JFdmo4ZllXVjcyCmlpaVlUOTNmZDRqOXJzOGprK1BTVXhDdmpWWDVjTmlWWUdwSTZMdmVpQ0g3Q0VwaTVFRC9Rb0QwK3ltSFoxUTkKRUNwS1VOSDBpS0RWVVB6VXpwV0JCcGl5MkwwOGs0dXFBYTBzR0p4cVFvTW9ybVVtZVNIT085eEhWenNpbUdacgpEek5RaHBnT28wRjNYb25FUHNtK3htUEpRdXlmV1VwazRrYzVzQldueGlza3gyTW5mamFuU1ZOVFl3SURBUUFCCm95Y3dKVEFPQmdOVkhROEJBZjhFQkFNQ0JhQXdFd1lEVlIwbEJBd3dDZ1lJS3dZQkJRVUhBd0l3RFFZSktvWkkKaHZjTkFRRUxCUUFEZ2dFQkFCbHVSMDlOaXloMnNXa1VycDhTRTBwYWVTN095eGxTR0RpS2dJbnJmb25sc3NYQgp2bFZReHpYd0FqNCtZK1ltZ1VBQ0pnY2tPaUpIbjcwWisydzNSOFFHdXpPQWRsOTNDWUNtWTh5bHVZUUlha0VBCmJET3pCdnNkME1YRW5pUWd2M2Z5cU9hYTh0dVRVV3pDd2RPSmE3OHQwRGErczFmRHZScktlcTJOcks5aTVadEsKUkQ2MWpYVlFONUNLQXo3TEpBekZhcVpRbTNNb1RnMkJnMTRuRWNKYzVSVTlpZ2RJSml6THR5ajdCSVZHUkxLWgpGZWIyOGVMa2tmSzh5VTZnK3ROWC9FaEJGL3hXMmFxYmJsWHBuRnlITnU2WHFGNFNDZGJVd1lRNERMamM2T3NlCm1uVk5qalNzRGR4SGlrZ050L2pxcDBZVjdLK1V5SkxSZkFSbkwrTT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=","client-key-data":"LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBcXhsa2xoZFBLZXIzR2dqUHFJZGg4TUtwUGdJV1lha1ArRVFPMnV1ZjU0S3lsa29tCjFRb0xjMzJzMlBHWkNFUG9CRmNXR29tU2MvZW1lU2NFcFdRSWNQSVViR3NNajNhdmxybVlzc1FZS1lnVlkzYXcKZlBNTDhVblZzOHVWMnpQalZpeHdMVTVvZ2NEUTZCVzlTYkV2ajhmWVdWNzJpaWlZVDkzZmQ0ajlyczhqaytQUwpVeEN2alZYNWNOaVZZR3BJNkx2ZWlDSDdDRXBpNUVEL1FvRDAreW1IWjFROUVDcEtVTkgwaUtEVlVQelV6cFdCCkJwaXkyTDA4azR1cUFhMHNHSnhxUW9Nb3JtVW1lU0hPTzl4SFZ6c2ltR1pyRHpOUWhwZ09vMEYzWG9uRVBzbSsKeG1QSlF1eWZXVXBrNGtjNXNCV254aXNreDJNbmZqYW5TVk5UWXdJREFRQUJBb0lCQVFDWk96dVhJN2IxSG9aQQpYYVhFRThNR0FQL2JGYmwvcXc0dlZKeE5PWHBTdHYxRGxaTWpka1I5SVE5Y2x6cHJhWTF2M2FKaEQ5WUdYOE5LCmUwUXc3dDZVY0drVUUrY0MwTk0rVkdkSnFrN05XeDkwbllZLzBOZGdON1RZdWJveXYweVpEMkZEWWhZOEpqZXgKc2s1OG9kK3JqOW5WYURPNTFkTmFxNlVIZzd0V0Fwc1lRTWc1aDk5SXEvRFZLR1FLYjRDeC94V2xicnMwN3gwTgpoL29LV3FlNWtiNkpEVzkzbW91ckpvRXBSWWQvM3BnbHRwYTRjRGJQT3dLcXJhYmtiL09rTW1lSisrSXFyS2pzCkt3ZTFzQXQwYlF5Qkh1bldxTE9ZcEgxN2IydmhjYXdNWmhDTmxBNVBMR21haGw5ZFdxMWpUalFYWlgxWi9BdjEKMHg3blFhL3hBb0dCQU1VTHJzeVEybWQ4NEpmMllwMWgrNVZEVGhUUGIyRERCZ1U0RjNQY05sL1VCMzU4MzdTRgozRDl0Tmx3MnVySFB0bUwvcmtxb3F4T0FDQ1FUMDFGdWQ3QWVKRTQrRWZOS21jSE1WTG1sc1hpb0RNNFNYZmdxCjB4VTJpeFN0S3Aya0hrWW1aeUk1MFgwUUM5QkdpTnVKNnNwSEZHOFlJc2ZuaXIvd0kxWDNMKys3QW9HQkFONUsKWk5tL2VQUjJMUjVmbmpubExpZzBuWERjOUdReUtWaHA4NjMrdGlabWI3R3R4WFFNaGRCcThoQmM3bGJ6QVdxawpBTHNNanBrTDJ2eHRzajNVTG1EM1ExMWtrbC9GRXVNbG9PYkpMSHRMc1hrYXJubnN5OE51TXI5OUs3M1hHSFBwCkViaFVoNnhQeXY0ajhnc1FDMVMyWU56UTNlcUJONHZKdXRNaXhzeDVBb0dBTks2azg0aWUvQ0JGSkJ2NXpiNU8KdDEraFZxc0hTa1dhTEhjTXZpdFlWbEtvRmtkb3dDa3g4N3ROVjJaQ2tCdksxYmtxYmtlZVJiNXJic25tSzlWdgpKcVZJYTZyb3ZiVnFXb2c0OXRHNEcxeEM0QzNFOWY3dEpMVEtocUt0ekN2KzlCNThZSWc0M0VrWC8zMThSY1lnCkFpank2NmoyVTZBeVZwTHJ2Nll4S05VQ2dZRUF5K1dOVURaVGFsa2oxYUo3Ymp1TDlSRWVBVEtMY1lTWmJDSHoKaFB3SWRIeXRvMXJ6clJqM2ZVODdya3F2ekUybVZQME9Ob1MwSUNwQnVoMmN5eDNmVk00NW1tYnY1S3pPUUZCNQpvSGVUTjUwY3N5c0lNNHBDOVlZVlFwUThGU3hCbjhCL29vYlcwL1YxQzF4SlhtQmZKRnNOeWo1RDhDQ0twTXhyCmM5T0lhbkVDZ1lCOTBSV2FDM0JWVkMvZlhESXBuY1pxdXJ5RVVRQTk0dUFZaVcwMlBpdGdEK0E3SDI1aFhodFAKQVl6eVRoK0FrSXc2M3ZscDJiZklKUG5IcFNBQ3QzMEk3Mk1taG9JcHVUaldYMVZPaWF6TE1RazQxZnczNE1vKwphazZIbndwUzZSRng1WXB1Qlo0a2dKSlNQRDJONVpIZ2hjRU9IYVJTaGRha0NnR1FNVURWRXc9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo="}}]}'
   tenants:
-  - id: argelans
-    name: argelans
+  - id: Unlenenns
+    name: Unlenenns
   availabilityZones:
   - name: k8s
     hypervisorType: k8s
@@ -318,7 +325,7 @@ profiles:
   - name: k8s-rb-profile-name
     value: default
   - name: nginx.name
-    value: argela-nginx-web
+    value: Unlenen-nginx-web
   - name: nginx.port
     value: 80
   - name: nginx.nodeport
@@ -368,11 +375,11 @@ You should add SO Keystone information manually
 kubectl exec -it dev-mariadb-galera-0 -- mysql -u cataloguser -p"catalog123" catalogdb
 
 - Add New Region
-insert into cloud_sites (id , region_id , identity_service_id , cloud_version , clli,creation_timestamp, cloud_owner) values ('argela_ist_kolla_openstack_regionone','RegionOne','DEFAULT_KEYSTONE','2.5','RegionOne',now(),'CloudOwner');
+insert into cloud_sites (id , region_id , identity_service_id , cloud_version , clli,creation_timestamp, cloud_owner) values ('Unlenen_ist_kolla_openstack_regionone','RegionOne','DEFAULT_KEYSTONE','2.5','RegionOne',now(),'CloudOwner');
 
 - If your openstack different than first one , please add 
 
-insert into identity_services (id , IDENTITY_URL, MSO_ID,MSO_PASS,ADMIN_TENANT,MEMBER_ROLE,TENANT_METADATA,IDENTITY_SERVER_TYPE,IDENTITY_AUTHENTICATION_TYPE,CREATION_TIMESTAMP,PROJECT_DOMAIN_NAME,USER_DOMAIN_NAME,ADMIN_PROJECT_DOMAIN_NAME) values('ARGELA_IST_OPENSTACK_IDENTITY' ,'https://<openstack-ip>:5000/v3','onap_user','your password','service','admin',1,'KEYSTONE_V3','USERNAME_PASSWORD',now(),'argela','argela','Default');
+insert into identity_services (id , IDENTITY_URL, MSO_ID,MSO_PASS,ADMIN_TENANT,MEMBER_ROLE,TENANT_METADATA,IDENTITY_SERVER_TYPE,IDENTITY_AUTHENTICATION_TYPE,CREATION_TIMESTAMP,PROJECT_DOMAIN_NAME,USER_DOMAIN_NAME,ADMIN_PROJECT_DOMAIN_NAME) values('Unlenen_IST_OPENSTACK_IDENTITY' ,'https://<openstack-ip>:5000/v3','onap_user','your password','service','admin',1,'KEYSTONE_V3','USERNAME_PASSWORD',now(),'Unlenen','Unlenen','Default');
 
 ```
 - Create or Use Existing Tenant
