@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
  */
-package  unlenen.cloud.onap.service.model;
+package unlenen.cloud.onap.service.model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,7 +35,7 @@ public class VF {
     String uuid;
     String uniqueId;
     String invariantUUID;
-    String name, description, versionName, modelName;
+    String name, description, versionName, modelName, modelCustomizationId;
     VSP vsp;
     @JsonIgnore
     Service service;

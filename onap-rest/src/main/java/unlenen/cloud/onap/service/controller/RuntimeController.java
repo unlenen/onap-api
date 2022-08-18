@@ -101,6 +101,7 @@ public class RuntimeController {
                         @RequestParam(name = "tenantId") String tenantId,
                         @RequestParam(name = "vfName") String vfName,
                         @RequestParam(name = "vfModelName") String vfModelName,
+                        @RequestParam(name = "vfModelName") String vfCustomizationUUID,
                         @RequestParam(name = "vfInvariantUUID") String vfInvariantUUID,
                         @RequestParam(name = "vfUUID") String vfUUID,
                         @RequestParam(name = "lineOfBusiness") String lineOfBusiness,
@@ -108,7 +109,7 @@ public class RuntimeController {
                 return ResponseEntity.ok(runtimeService.createVNF(vnfName, serviceInstanceId, serviceName,
                                 serviceInvariantUUID, serviceUUID, serviceUniqueId, cloudOwner, cloudRegion, tenantId,
                                 vfName,
-                                vfModelName, vfInvariantUUID, vfUUID, lineOfBusiness, platformName).toString());
+                                vfModelName, vfCustomizationUUID,vfInvariantUUID, vfUUID, lineOfBusiness, platformName).toString());
         }
 
         @DeleteMapping(path = "/runtime/vnf/{vnfId}", produces = MediaType.APPLICATION_JSON_VALUE)

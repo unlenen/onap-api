@@ -139,6 +139,7 @@ public class RuntimeService {
             String tenantId,
             String vfName,
             String vfModelName,
+            String vfCustomizationUUID,
             String vfInvariantUUID,
             String vfUUID,
             String lineOfBusiness,
@@ -156,6 +157,7 @@ public class RuntimeService {
         parameters.put(OnapRequestParameters.CLOUD_TENANT_ID.name(), tenantId);
         parameters.put(OnapRequestParameters.DESIGN_VF_NAME.name(), vfName);
         parameters.put(OnapRequestParameters.DESIGN_VF_MODEL_NAME.name(), vfModelName);
+        parameters.put(OnapRequestParameters.DESIGN_VF_Customization_UUID.name(), vfCustomizationUUID);
         parameters.put(OnapRequestParameters.DESIGN_VF_invariantUUID.name(), vfInvariantUUID);
         parameters.put(OnapRequestParameters.DESIGN_VF_UUID.name(), vfUUID);
         parameters.put(OnapRequestParameters.BUSINESS_LINE_OF_BUSINESS.name(), lineOfBusiness);

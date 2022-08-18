@@ -284,6 +284,7 @@ public class RuntimeScenario extends CommonScenario {
                 vnf.getTenant().getId(),
                 vnf.getVf().getName(),
                 vnf.getVf().getModelName(),
+                vnf.getVf().getModelCustomizationId(),
                 vnf.getVf().getInvariantUUID(),
                 vnf.getVf().getUuid(),
                 vnf.getLineOfBusiness(),

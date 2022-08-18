@@ -216,6 +216,7 @@ public class ServiceModelScenario extends CommonScenario {
             }
 
             vf.setModelName(modelName);
+            vf.setModelCustomizationId(component.getString("customizationUUID"));
 
             JSONArray groupInstances = component.getJSONArray("groupInstances");
             for (int j = 0; j < groupInstances.length(); j++) {

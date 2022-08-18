@@ -64,6 +64,7 @@ public enum OnapRequestParameters {
     DESIGN_VF_UNIQUE_ID,
     DESIGN_VF_invariantUUID,
     DESIGN_VF_NAME,
+    DESIGN_VF_Customization_UUID,
     DESIGN_VF_MODEL_NAME,
     DESIGN_VF_MODEL_TYPE,
     DESIGN_VF_MODEL_UUID,

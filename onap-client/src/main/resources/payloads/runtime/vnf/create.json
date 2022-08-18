@@ -13,6 +13,7 @@
             "modelVersionId": "${DESIGN_VF_UUID}",
             "modelName": "${DESIGN_VF_NAME}",
             "modelVersion": "1.0",
+            "modelCustomizationId":"${DESIGN_VF_Customization_UUID}",
             "modelCustomizationName": "${DESIGN_VF_MODEL_NAME}"
         },
         "requestParameters": {
