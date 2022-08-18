@@ -56,7 +56,8 @@ public class CloudController {
 
     @PutMapping(path = "/cloud/complex/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createCloudComplex(@PathVariable String name) throws IOException {
-        return ResponseEntity.ok(createCloudComplex(name).toString());
+        cloudService.createCloudComplex(name);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @GetMapping(path = "/cloud/regions", produces = MediaType.APPLICATION_JSON_VALUE)
